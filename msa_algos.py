@@ -19,8 +19,12 @@ def analyze_population(cb):
 
     features = cb.pop_features
     df = cb.fetch_population_csv()
+    CBSA_NAMES = df[["CBSA", "NAME"]][(df["LSAD"] == "Metropolitan Statistical Area") | (df["LSAD"] == "Micropolitan Statistical Area")].set_index("CBSA")
     mappings.cbsa_fips_df = mappings.cbsa_fips_df[["cbsacode", "fipsstatecode"]].drop_duplicates()
+    # AGGREGATE ON CBSA CODE
     df = df.groupby("CBSA").sum()
+    # MAP MSA NAME
+    df["CBSA NAME"] = CBSA_NAMES
 
     """
     START RELATIVE ANALYSIS
@@ -109,6 +113,49 @@ def analyze_population(cb):
     df_relative_analysis["5_YEAR_BIRTHS"] = df[df.columns.intersection(_5_YEAR_BIRTHS_SLICE)].mean(axis=1) / _5_YEAR_POP_AVG
     df_relative_analysis["ALL_YEAR_BIRTHS"] = df[df.columns.intersection(_ALL_YEAR_BIRTHS_SLICE)].mean(axis=1) / _ALL_YEAR_POP_AVG
 
+    # PERCENT OF NATURAL INCREASE FROM BIRTHS OR DEATHS
+    df_relative_analysis["PER_BIRTHS_NAT_MIG_2011"] = df["BIRTHS2011"] / df["NATURALINC2010"] - 1
+    df_relative_analysis["PER_BIRTHS_NAT_MIG_2012"] = df["BIRTHS2012"] / df["NATURALINC2011"] - 1
+    df_relative_analysis["PER_BIRTHS_NAT_MIG_2013"] = df["BIRTHS2013"] / df["NATURALINC2012"] - 1
+    df_relative_analysis["PER_BIRTHS_NAT_MIG_2014"] = df["BIRTHS2014"] / df["NATURALINC2013"] - 1
+    df_relative_analysis["PER_BIRTHS_NAT_MIG_2015"] = df["BIRTHS2015"] / df["NATURALINC2014"] - 1
+    df_relative_analysis["PER_BIRTHS_NAT_MIG_2016"] = df["BIRTHS2016"] / df["NATURALINC2015"] - 1
+    df_relative_analysis["PER_BIRTHS_NAT_MIG_2017"] = df["BIRTHS2017"] / df["NATURALINC2016"] - 1
+    df_relative_analysis["PER_BIRTHS_NAT_MIG_2018"] = df["BIRTHS2018"] / df["NATURALINC2017"] - 1
+    df_relative_analysis["PER_BIRTHS_NAT_MIG_2019"] = df["BIRTHS2019"] / df["NATURALINC2018"] - 1
+
+    df_relative_analysis["PER_DEATHS_NAT_MIG_2011"] = df["DEATHS2011"] / df["NATURALINC2010"] - 1
+    df_relative_analysis["PER_DEATHS_NAT_MIG_2012"] = df["DEATHS2012"] / df["NATURALINC2011"] - 1
+    df_relative_analysis["PER_DEATHS_NAT_MIG_2013"] = df["DEATHS2013"] / df["NATURALINC2012"] - 1
+    df_relative_analysis["PER_DEATHS_NAT_MIG_2014"] = df["DEATHS2014"] / df["NATURALINC2013"] - 1
+    df_relative_analysis["PER_DEATHS_NAT_MIG_2015"] = df["DEATHS2015"] / df["NATURALINC2014"] - 1
+    df_relative_analysis["PER_DEATHS_NAT_MIG_2016"] = df["DEATHS2016"] / df["NATURALINC2015"] - 1
+    df_relative_analysis["PER_DEATHS_NAT_MIG_2017"] = df["DEATHS2017"] / df["NATURALINC2016"] - 1
+    df_relative_analysis["PER_DEATHS_NAT_MIG_2018"] = df["DEATHS2018"] / df["NATURALINC2017"] - 1
+    df_relative_analysis["PER_DEATHS_NAT_MIG_2019"] = df["DEATHS2019"] / df["NATURALINC2018"] - 1
+
+    # PERCENT OF NET MIGRATION FROM DOMESTIC AND INTERNATIONAL
+    df_relative_analysis["PER_DOMESTIC_MIG_2011"] = df["DOMESTICMIG2011"] / df["NETMIG2010"] - 1
+    df_relative_analysis["PER_DOMESTIC_MIG_2012"] = df["DOMESTICMIG2012"] / df["NETMIG2011"] - 1
+    df_relative_analysis["PER_DOMESTIC_MIG_2013"] = df["DOMESTICMIG2013"] / df["NETMIG2012"] - 1
+    df_relative_analysis["PER_DOMESTIC_MIG_2014"] = df["DOMESTICMIG2014"] / df["NETMIG2013"] - 1
+    df_relative_analysis["PER_DOMESTIC_MIG_2015"] = df["DOMESTICMIG2015"] / df["NETMIG2014"] - 1
+    df_relative_analysis["PER_DOMESTIC_MIG_2016"] = df["DOMESTICMIG2016"] / df["NETMIG2015"] - 1
+    df_relative_analysis["PER_DOMESTIC_MIG_2017"] = df["DOMESTICMIG2017"] / df["NETMIG2016"] - 1
+    df_relative_analysis["PER_DOMESTIC_MIG_2018"] = df["DOMESTICMIG2018"] / df["NETMIG2017"] - 1
+    df_relative_analysis["PER_DOMESTIC_MIG_2019"] = df["DOMESTICMIG2019"] / df["NETMIG2018"] - 1
+
+    df_relative_analysis["PER_INTERNATIONAL_MIG_2011"] = df["INTERNATIONALMIG2011"] / df["NETMIG2010"] - 1
+    df_relative_analysis["PER_INTERNATIONAL_MIG_2012"] = df["INTERNATIONALMIG2012"] / df["NETMIG2011"] - 1
+    df_relative_analysis["PER_INTERNATIONAL_MIG_2013"] = df["INTERNATIONALMIG2013"] / df["NETMIG2012"] - 1
+    df_relative_analysis["PER_INTERNATIONAL_MIG_2014"] = df["INTERNATIONALMIG2014"] / df["NETMIG2013"] - 1
+    df_relative_analysis["PER_INTERNATIONAL_MIG_2015"] = df["INTERNATIONALMIG2015"] / df["NETMIG2014"] - 1
+    df_relative_analysis["PER_INTERNATIONAL_MIG_2016"] = df["INTERNATIONALMIG2016"] / df["NETMIG2015"] - 1
+    df_relative_analysis["PER_INTERNATIONAL_MIG_2017"] = df["INTERNATIONALMIG2017"] / df["NETMIG2016"] - 1
+    df_relative_analysis["PER_INTERNATIONAL_MIG_2018"] = df["INTERNATIONALMIG2018"] / df["NETMIG2017"] - 1
+    df_relative_analysis["PER_INTERNATIONAL_MIG_2019"] = df["INTERNATIONALMIG2019"] / df["NETMIG2018"] - 1
+
+
     """
     START ABSOLUTE ANALYSIS
     """
@@ -154,19 +201,13 @@ def analyze_population(cb):
     df_abs_analysis["STATE"] = df_abs_analysis["FIPS"].map(mappings.states_df["state"])
     df_abs_states = df_abs_analysis.groupby("STATE").sum()
 
-    # SAVE TO EXCEL
+    # RANKINGS & REPORTS
+    
 
+
+    # SAVE TO EXCEL
     path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "data", "reports", "population.xlsx")
     writer = pd.ExcelWriter(path, engine='xlsxwriter')
-    workbook = writer.book
-    # worksheet = workbook.add_worksheet('relative_CBSA_analysis')
-    # worksheet2 = workbook.add_worksheet('absolute_CBSA_analysis')
-    # worksheet3 = workbook.add_worksheet('state_aggregation')
-
-    # writer["relative_CBSA_analysis"] = worksheet
-    # writer["absolute_CBSA_analysis"] = worksheet2
-    # writer["state_aggregation"] = worksheet3
-
     df_relative_analysis.to_excel(writer, sheet_name="relative_CBSA_analysis")
     df_abs_analysis.to_excel(writer, sheet_name="absolute_CBSA_analysis")
     df_abs_states.to_excel(writer, sheet_name="state_aggregation")
