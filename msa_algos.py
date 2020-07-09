@@ -54,6 +54,7 @@ def analyze_population(cb):
     _2_YEAR_CHANGE_SLICE = features[25:27]
     _3_YEAR_CHANGE_SLICE = features[24:27]
     _5_YEAR_CHANGE_SLICE = features[22:27]
+    _ALL_YEAR_CHANGE_SLICE = features[17:27]
     _2_YEAR_CHANGE = df[df.columns.intersection(_2_YEAR_CHANGE_SLICE)].mean(axis=1)
     _3_YEAR_CHANGE = df[df.columns.intersection(_3_YEAR_CHANGE_SLICE)].mean(axis=1)
     _5_YEAR_CHANGE = df[df.columns.intersection(_5_YEAR_CHANGE_SLICE)].mean(axis=1)
@@ -88,66 +89,63 @@ def analyze_population(cb):
     df_relative_analysis["5_YEAR_INTERNATIONAL_MIGRATION"] = df[df.columns.intersection(_5_YEAR_INTERNATIONAL_MIGRATION_SLICE)].mean(axis=1) / _5_YEAR_POP_AVG
     df_relative_analysis["ALL_YEAR_INTERNATIONAL_MIGRATION"] = df[df.columns.intersection(_ALL_YEAR_INTERNATIONAL_MIGRATION_SLICE)].mean(axis=1) / _ALL_YEAR_POP_AVG
 
-    # MOST DEATH 2, 3, 5, ALL YEAR
-    _2_YEAR_DEATHS = features[45:47]
-    _3_YEAR_DEATHS = features[44:47]
-    _5_YEAR_DEATHS = features[42:47]
-    _ALL_YEAR_DEATHS = features[37:47]
-    df_relative_analysis["2_YEAR_DEATHS"] = df[df.columns.intersection(_2_YEAR_DEATHS)].mean(axis=1) / _2_YEAR_POP_AVG
-    df_relative_analysis["3_YEAR_DEATHS"] = df[df.columns.intersection(_3_YEAR_DEATHS)].mean(axis=1) / _3_YEAR_POP_AVG
-    df_relative_analysis["5_YEAR_DEATHS"] = df[df.columns.intersection(_5_YEAR_DEATHS)].mean(axis=1) / _5_YEAR_POP_AVG
-    df_relative_analysis["ALL_YEAR_DEATHS"] = df[df.columns.intersection(_ALL_YEAR_DEATHS)].mean(axis=1) / _ALL_YEAR_POP_AVG
+    # MOST DEATHS 2, 3, 5, ALL YEARS
+    _2_YEAR_DEATHS_SLICE = features[45:47]
+    _3_YEAR_DEATHS_SLICE = features[44:47]
+    _5_YEAR_DEATHS_SLICE = features[42:47]
+    _ALL_YEAR_DEATHS_SLICE = features[37:47]
+    df_relative_analysis["2_YEAR_DEATHS"] = df[df.columns.intersection(_2_YEAR_DEATHS_SLICE)].mean(axis=1) / _2_YEAR_POP_AVG
+    df_relative_analysis["3_YEAR_DEATHS"] = df[df.columns.intersection(_3_YEAR_DEATHS_SLICE)].mean(axis=1) / _3_YEAR_POP_AVG
+    df_relative_analysis["5_YEAR_DEATHS"] = df[df.columns.intersection(_5_YEAR_DEATHS_SLICE)].mean(axis=1) / _5_YEAR_POP_AVG
+    df_relative_analysis["ALL_YEAR_DEATHS"] = df[df.columns.intersection(_ALL_YEAR_DEATHS_SLICE)].mean(axis=1) / _ALL_YEAR_POP_AVG
 
-    # MOST BIRTHS - 3/5 YEARS
-    _2_YEAR_BIRTHS = features[35:37]
-    _3_YEAR_BIRTHS = features[34:37]
-    _5_YEAR_BIRTHS = features[32:37]
-    _ALL_YEAR_BIRTHS = features[27:37]
-    df_relative_analysis["2_YEAR_BIRTHS"] = df[df.columns.intersection(_2_YEAR_BIRTHS)].mean(axis=1) / _2_YEAR_POP_AVG
-    df_relative_analysis["3_YEAR_BIRTHS"] = df[df.columns.intersection(_3_YEAR_BIRTHS)].mean(axis=1) / _3_YEAR_POP_AVG
-    df_relative_analysis["5_YEAR_BIRTHS"] = df[df.columns.intersection(_5_YEAR_BIRTHS)].mean(axis=1) / _5_YEAR_POP_AVG
-    df_relative_analysis["ALL_YEAR_BIRTHS"] = df[df.columns.intersection(_ALL_YEAR_BIRTHS)].mean(axis=1) / _ALL_YEAR_POP_AVG
-
+    # MOST BIRTHS 2, 3, 5, ALL YEARS
+    _2_YEAR_BIRTHS_SLICE = features[35:37]
+    _3_YEAR_BIRTHS_SLICE = features[34:37]
+    _5_YEAR_BIRTHS_SLICE = features[32:37]
+    _ALL_YEAR_BIRTHS_SLICE = features[27:37]
+    df_relative_analysis["2_YEAR_BIRTHS"] = df[df.columns.intersection(_2_YEAR_BIRTHS_SLICE)].mean(axis=1) / _2_YEAR_POP_AVG
+    df_relative_analysis["3_YEAR_BIRTHS"] = df[df.columns.intersection(_3_YEAR_BIRTHS_SLICE)].mean(axis=1) / _3_YEAR_POP_AVG
+    df_relative_analysis["5_YEAR_BIRTHS"] = df[df.columns.intersection(_5_YEAR_BIRTHS_SLICE)].mean(axis=1) / _5_YEAR_POP_AVG
+    df_relative_analysis["ALL_YEAR_BIRTHS"] = df[df.columns.intersection(_ALL_YEAR_BIRTHS_SLICE)].mean(axis=1) / _ALL_YEAR_POP_AVG
 
     """
     START ABSOLUTE ANALYSIS
     """
 
     df_abs_analysis = pd.DataFrame(index=df.index)
-    #df_abs_analysis["FIPS"] = df["FIPS"]
-    #df_abs_analysis["STATE"] = df["STATE"]
 
-    # DEFINE LOOKBACKS
-    _3_YEAR_LOOKBACK = features[24:27]
-    _5_YEAR_LOOKBACK = features[22:27]
-    _ALL_PERIODS_LOOKBACK = features[17:27]
-
-    # AGGREGATE ABSOLUTES: 1, 3, 5 YEARS
-    df_abs_analysis["2019_ABS_CHANGE"] = df["NPOPCHG2019"]
-    df_abs_analysis["3_YEAR_ABS_CHANGE"] = df[df.columns.intersection(_3_YEAR_LOOKBACK)].sum(axis=1)
-    df_abs_analysis["5_YEAR_ABS_CHANGE"] = df[df.columns.intersection(_5_YEAR_LOOKBACK)].sum(axis=1)
-    df_abs_analysis["ALL_YEAR_ABS_CHANGE"] = df[df.columns.intersection(_ALL_PERIODS_LOOKBACK)].sum(axis=1)
+    # AGGREGATE ABSOLUTES: 1, 3, 5, ALL YEARS
+    df_abs_analysis["1_YEAR_ABS_CHANGE"] = df["NPOPCHG2019"]
+    df_abs_analysis["2_YEAR_ABS_CHANGE"] = df[df.columns.intersection(_2_YEAR_CHANGE_SLICE)].sum(axis=1)
+    df_abs_analysis["3_YEAR_ABS_CHANGE"] = df[df.columns.intersection(_3_YEAR_CHANGE_SLICE)].sum(axis=1)
+    df_abs_analysis["5_YEAR_ABS_CHANGE"] = df[df.columns.intersection(_5_YEAR_CHANGE_SLICE)].sum(axis=1)
+    df_abs_analysis["ALL_YEAR_ABS_CHANGE"] = df[df.columns.intersection(_ALL_YEAR_CHANGE_SLICE)].sum(axis=1)
 
     # BIRTHS
-    df_abs_analysis["2019_ABS_BIRTHS"] = df["BIRTHS2019"]
-    df_abs_analysis["3_YEAR_ABS_BIRTHS"] = df[df.columns.intersection(_3_YEAR_BIRTHS)].sum(axis=1)
-    df_abs_analysis["5_YEAR_ABS_BIRTHS"] = df[df.columns.intersection(_5_YEAR_BIRTHS)].sum(axis=1)
-    df_abs_analysis["ALL_YEAR_ABS_BIRTHS"] = df[df.columns.intersection(_ALL_YEAR_BIRTHS)].sum(axis=1)
+    df_abs_analysis["1_YEAR_ABS_BIRTHS"] = df["BIRTHS2019"]
+    df_abs_analysis["3_YEAR_ABS_BIRTHS"] = df[df.columns.intersection(_2_YEAR_BIRTHS_SLICE)].sum(axis=1)
+    df_abs_analysis["3_YEAR_ABS_BIRTHS"] = df[df.columns.intersection(_3_YEAR_BIRTHS_SLICE)].sum(axis=1)
+    df_abs_analysis["5_YEAR_ABS_BIRTHS"] = df[df.columns.intersection(_5_YEAR_BIRTHS_SLICE)].sum(axis=1)
+    df_abs_analysis["ALL_YEAR_ABS_BIRTHS"] = df[df.columns.intersection(_ALL_YEAR_BIRTHS_SLICE)].sum(axis=1)
 
     # DEATHS
-    df_abs_analysis["2019_ABS_DEATHS"] = df["DEATHS2019"]
-    df_abs_analysis["3_YEAR_ABS_DEATHS"] = df[df.columns.intersection(_3_YEAR_DEATHS)].sum(axis=1)
-    df_abs_analysis["5_YEAR_ABS_DEATHS"] = df[df.columns.intersection(_5_YEAR_DEATHS)].sum(axis=1)
-    df_abs_analysis["ALL_YEAR_ABS_DEATHS"] = df[df.columns.intersection(_ALL_YEAR_DEATHS)].sum(axis=1)
+    df_abs_analysis["1_YEAR_ABS_DEATHS"] = df["DEATHS2019"]
+    df_abs_analysis["2_YEAR_ABS_DEATHS"] = df[df.columns.intersection(_2_YEAR_DEATHS_SLICE)].sum(axis=1)
+    df_abs_analysis["3_YEAR_ABS_DEATHS"] = df[df.columns.intersection(_3_YEAR_DEATHS_SLICE)].sum(axis=1)
+    df_abs_analysis["5_YEAR_ABS_DEATHS"] = df[df.columns.intersection(_5_YEAR_DEATHS_SLICE)].sum(axis=1)
+    df_abs_analysis["ALL_YEAR_ABS_DEATHS"] = df[df.columns.intersection(_ALL_YEAR_DEATHS_SLICE)].sum(axis=1)
 
     # DOMESTIC
-    df_abs_analysis["2019_ABS_DOMESTIC"] = df["DOMESTICMIG2019"]
+    df_abs_analysis["1_YEAR_ABS_DOMESTIC"] = df["DOMESTICMIG2019"]
+    df_abs_analysis["2_YEAR_ABS_DOMESTIC"] = df[df.columns.intersection(_2_YEAR_DOMESTIC_MIGRATION)].sum(axis=1)
     df_abs_analysis["3_YEAR_ABS_DOMESTIC"] = df[df.columns.intersection(_3_YEAR_DOMESTIC_MIGRATION)].sum(axis=1)
     df_abs_analysis["5_YEAR_ABS_DOMESTIC"] = df[df.columns.intersection(_5_YEAR_DOMESTIC_MIGRATION)].sum(axis=1)
     df_abs_analysis["ALL_YEAR_ABS_DOMESTIC"] = df[df.columns.intersection(_ALL_YEAR_DOMESTIC_MIGRATION)].sum(axis=1)
 
     # INTERNATIONAL
-    df_abs_analysis["2019_ABS_INTERNATIONAL"] = df["INTERNATIONALMIG2019"]
+    df_abs_analysis["1_YEAR_ABS_INTERNATIONAL"] = df["INTERNATIONALMIG2019"]
+    df_abs_analysis["2_YEAR_ABS_INTERNATIONAL"] = df[df.columns.intersection(_2_YEAR_INTERNATIONAL_MIGRATION_SLICE)].sum(axis=1)
     df_abs_analysis["3_YEAR_ABS_INTERNATIONAL"] = df[df.columns.intersection(_3_YEAR_INTERNATIONAL_MIGRATION_SLICE)].sum(axis=1)
     df_abs_analysis["5_YEAR_ABS_INTERNATIONAL"] = df[df.columns.intersection(_5_YEAR_INTERNATIONAL_MIGRATION_SLICE)].sum(axis=1)
     df_abs_analysis["ALL_YEAR_ABS_INTERNATIONAL"] = df[df.columns.intersection(_ALL_YEAR_INTERNATIONAL_MIGRATION_SLICE)].sum(axis=1)
