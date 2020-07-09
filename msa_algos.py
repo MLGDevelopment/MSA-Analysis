@@ -6,6 +6,15 @@ import os
 mappings = Mappings()
 
 
+def write_multiple_dfs(df_list, sheets, file_name, spaces):
+    writer = pd.ExcelWriter(file_name, engine='xlsxwriter')
+    col = 0
+    for dataframe in df_list:
+        dataframe.to_excel(writer,sheet_name=sheets, startrow=0, startcol=col)
+        col = col + len(dataframe.columns) + spaces + 1
+    writer.save()
+
+
 def analyze_population(cb):
     """
     Algorithm for analyzing population data in the US
@@ -18,7 +27,7 @@ def analyze_population(cb):
     """
 
     THRESHOLD_TOP = .10
-    THRESHOLD_BOTTOM = .15
+    THRESHOLD_BOTTOM = .10
 
     features = cb.pop_features
     df = cb.fetch_population_csv()
@@ -327,12 +336,53 @@ def analyze_population(cb):
         df_relative_analysis.sort_values(by=["ALL_YEAR_DEATHS"], ascending=True).head(
             round(len(df_relative_analysis) * THRESHOLD_TOP))[["CBSA NAME", "ALL_YEAR_DEATHS"]]
 
+    # TODO: MAP OD DEATHS TO CBSA TO GAUGE CONTRIBUTION TO DEATH RATES
 
+    temp = [FASTEST_GROWING_YOY,
+            FASTEST_DECLINING_YOY,
+            FASTEST_GROWING_2_YEAR,
+            FASTEST_DECLINING_2_YEAR,
+            FASTEST_GROWING_3_YEAR,
+            FASTEST_DECLINING_3_YEAR,
+            FASTEST_GROWING_5_YEAR,
+            FASTEST_DECLINING_5_YEAR,
+            FASTEST_GROWING_ALL_YEAR,
+            FASTEST_DECLINING_ALL_YEAR,
+            FASTEST_GROWING_2_DOMESTIC,
+            FASTEST_DECLINING_2_DOMESTIC,
+            FASTEST_GROWING_3_DOMESTIC,
+            FASTEST_DECLINING_3_DOMESTIC,
+            FASTEST_GROWING_5_DOMESTIC,
+            FASTEST_DECLINING_5_DOMESTIC,
+            FASTEST_GROWING_ALL_DOMESTIC,
+            FASTEST_DECLINING_ALL_DOMESTIC,
+            FASTEST_GROWING_2_INT,
+            FASTEST_DECLINING_2_INT,
+            FASTEST_GROWING_3_INT,
+            FASTEST_DECLINING_3_INT,
+            FASTEST_GROWING_5_INT,
+            FASTEST_DECLINING_5_INT,
+            FASTEST_GROWING_ALL_INT,
+            FASTEST_DECLINING_ALL_INT,
+            FASTEST_GROWING_2_BIRTHS,
+            FASTEST_DECLINING_2_BIRTHS,
+            FASTEST_GROWING_3_BIRTHS,
+            FASTEST_DECLINING_3_BIRTHS,
+            FASTEST_GROWING_5_BIRTHS,
+            FASTEST_DECLINING_5_BIRTHS,
+            FASTEST_GROWING_ALL_BIRTHS,
+            FASTEST_DECLINING_ALL_BIRTHS,
+            FASTEST_GROWING_2_DEATHS,
+            FASTEST_DECLINING_2_DEATHS,
+            FASTEST_GROWING_3_DEATHS,
+            FASTEST_DECLINING_3_DEATHS,
+            FASTEST_GROWING_5_DEATHS,
+            FASTEST_DECLINING_5_DEATHS,
+            FASTEST_GROWING_ALL_DEATHS,
+            FASTEST_DECLINING_ALL_DEATHS
+            ]
 
-
-
-
-
+    write_multiple_dfs(temp, 'Validation', 'reports.xlsx', 1)
     print
 
     # SAVE TO EXCEL
