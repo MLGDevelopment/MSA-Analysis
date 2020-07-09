@@ -17,6 +17,9 @@ def analyze_population(cb):
     :return:
     """
 
+    THRESHOLD_TOP = .10
+    THRESHOLD_BOTTOM = .15
+
     features = cb.pop_features
     df = cb.fetch_population_csv()
     CBSA_NAMES = df[["CBSA", "NAME"]][(df["LSAD"] == "Metropolitan Statistical Area") | (df["LSAD"] == "Micropolitan Statistical Area")].set_index("CBSA")
@@ -24,7 +27,7 @@ def analyze_population(cb):
     # AGGREGATE ON CBSA CODE
     df = df.groupby("CBSA").sum()
     # MAP MSA NAME
-    df["CBSA NAME"] = CBSA_NAMES
+
 
     """
     START RELATIVE ANALYSIS
@@ -54,15 +57,6 @@ def analyze_population(cb):
     df_relative_analysis["NPOPCHG2018_%CHG"] = df["NPOPCHG2018"] / df["NPOPCHG2017"] - 1
     df_relative_analysis["NPOPCHG2019_%CHG"] = df["NPOPCHG2019"] / df["NPOPCHG2018"] - 1
 
-    # 2 AND 3 YEAR AND 5 YEAR POPULATION CHANGE AVERAGES
-    _2_YEAR_CHANGE_SLICE = features[25:27]
-    _3_YEAR_CHANGE_SLICE = features[24:27]
-    _5_YEAR_CHANGE_SLICE = features[22:27]
-    _ALL_YEAR_CHANGE_SLICE = features[17:27]
-    _2_YEAR_CHANGE = df[df.columns.intersection(_2_YEAR_CHANGE_SLICE)].mean(axis=1)
-    _3_YEAR_CHANGE = df[df.columns.intersection(_3_YEAR_CHANGE_SLICE)].mean(axis=1)
-    _5_YEAR_CHANGE = df[df.columns.intersection(_5_YEAR_CHANGE_SLICE)].mean(axis=1)
-
     # COMPUTE POPULATION AVERAGES: 2, 3, 5, ALL
     _2_YEAR_POP_SLICE = features[15:17]
     _3_YEAR_POP_SLICE = features[14:17]
@@ -72,6 +66,18 @@ def analyze_population(cb):
     _3_YEAR_POP_AVG = df[df.columns.intersection(_3_YEAR_POP_SLICE)].mean(axis=1)
     _5_YEAR_POP_AVG = df[df.columns.intersection(_5_YEAR_POP_SLICE)].mean(axis=1)
     _ALL_YEAR_POP_AVG = df[df.columns.intersection(_ALL_YEAR_POP_SLICE)].mean(axis=1)
+
+    # 2 AND 3 YEAR AND 5 YEAR POPULATION CHANGE AVERAGES
+    _2_YEAR_CHANGE_SLICE = features[25:27]
+    _3_YEAR_CHANGE_SLICE = features[24:27]
+    _5_YEAR_CHANGE_SLICE = features[22:27]
+    _ALL_YEAR_CHANGE_SLICE = features[17:27]
+    df_relative_analysis["_2_YEAR_POPULATION_RATE_CHANGE"] = df[df.columns.intersection(_2_YEAR_CHANGE_SLICE)].mean(axis=1) / _2_YEAR_POP_AVG
+    df_relative_analysis["_3_YEAR_POPULATION_RATE_CHANGE"] = df[df.columns.intersection(_3_YEAR_CHANGE_SLICE)].mean(axis=1) / _3_YEAR_POP_AVG
+    df_relative_analysis["_5_YEAR_POPULATION_RATE_CHANGE"] = df[df.columns.intersection(_5_YEAR_CHANGE_SLICE)].mean(axis=1) / _5_YEAR_POP_AVG
+    df_relative_analysis["_ALL_YEAR_POPULATION_RATE_CHANGE"] = df[df.columns.intersection(_ALL_YEAR_CHANGE_SLICE)].mean(axis=1) / _ALL_YEAR_POP_AVG
+
+
 
     # DOMESTIC MIGRATION
     _2_YEAR_DOMESTIC_MIGRATION = features[75:77]
@@ -199,11 +205,28 @@ def analyze_population(cb):
 
     df_abs_analysis["FIPS"] = df_abs_analysis.index.map(dict(mappings.cbsa_fips_df.values))
     df_abs_analysis["STATE"] = df_abs_analysis["FIPS"].map(mappings.states_df["state"])
+
     df_abs_states = df_abs_analysis.groupby("STATE").sum()
 
     # RANKINGS & REPORTS
-    
+    df_relative_analysis["CBSA NAME"] = CBSA_NAMES
+    df_abs_states["CBSA NAME"] = CBSA_NAMES
+    df_abs_analysis["CBSA NAME"] = CBSA_NAMES
 
+    # GET FASTEST GROWING YOY
+    FASTEST_GROWING_YOY = df_relative_analysis.sort_values(by=["POPESTIMATE2019_%CHG"], ascending=False).head(round(len(df_relative_analysis) * THRESHOLD_TOP))[["CBSA NAME", "POPESTIMATE2019_%CHG"]]
+    FASTEST_DECLINING_YOY = df_relative_analysis.sort_values(by=["POPESTIMATE2019_%CHG"], ascending=True).head(round(len(df_relative_analysis) * THRESHOLD_BOTTOM))[["CBSA NAME", "POPESTIMATE2019_%CHG"]]
+    FASTEST_GROWING_2_YEAR = df_relative_analysis.sort_values(by=["_2_YEAR_POPULATION_RATE_CHANGE"], ascending=False).head(round(len(df_relative_analysis) * THRESHOLD_TOP))[["CBSA NAME", "_2_YEAR_POPULATION_RATE_CHANGE"]]
+    FASTEST_DECLINING_2_YEAR = df_relative_analysis.sort_values(by=["_2_YEAR_POPULATION_RATE_CHANGE"], ascending=True).head(round(len(df_relative_analysis) * THRESHOLD_BOTTOM))[["CBSA NAME", "_2_YEAR_POPULATION_RATE_CHANGE"]]
+    FASTEST_GROWING_3_YEAR = df_relative_analysis.sort_values(by=["_3_YEAR_POPULATION_RATE_CHANGE"], ascending=False).head(round(len(df_relative_analysis) * THRESHOLD_TOP))[["CBSA NAME", "_3_YEAR_POPULATION_RATE_CHANGE"]]
+    FASTEST_DECLINING_3_YEAR = df_relative_analysis.sort_values(by=["_3_YEAR_POPULATION_RATE_CHANGE"], ascending=True).head(round(len(df_relative_analysis) * THRESHOLD_BOTTOM))[["CBSA NAME", "_3_YEAR_POPULATION_RATE_CHANGE"]]
+    FASTEST_GROWING_5_YEAR = df_relative_analysis.sort_values(by=["_5_YEAR_POPULATION_RATE_CHANGE"], ascending=False).head(round(len(df_relative_analysis) * THRESHOLD_TOP))[["CBSA NAME", "_5_YEAR_POPULATION_RATE_CHANGE"]]
+    FASTEST_DECLINING_5_YEAR = df_relative_analysis.sort_values(by=["_5_YEAR_POPULATION_RATE_CHANGE"], ascending=True).head(round(len(df_relative_analysis) * THRESHOLD_BOTTOM))[["CBSA NAME", "_5_YEAR_POPULATION_RATE_CHANGE"]]
+    FASTEST_GROWING_ALL_YEAR = df_relative_analysis.sort_values(by=["_ALL_YEAR_POPULATION_RATE_CHANGE"], ascending=False).head(round(len(df_relative_analysis) * THRESHOLD_TOP))[["CBSA NAME", "_ALL_YEAR_POPULATION_RATE_CHANGE"]]
+    FASTEST_DECLINING_ALL_YEAR = df_relative_analysis.sort_values(by=["_ALL_YEAR_POPULATION_RATE_CHANGE"], ascending=True).head(round(len(df_relative_analysis) * THRESHOLD_BOTTOM))[["CBSA NAME", "_ALL_YEAR_POPULATION_RATE_CHANGE"]]
+
+
+    print
 
     # SAVE TO EXCEL
     path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "data", "reports", "population.xlsx")
