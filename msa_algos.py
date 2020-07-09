@@ -2,15 +2,19 @@ from DataScraper import CensusBureau
 from DataScraper import Mappings
 import pandas as pd
 import os
-
+import string
+from datetime import datetime
 mappings = Mappings()
 
 
 def write_multiple_dfs(df_list, sheets, file_name, spaces):
     writer = pd.ExcelWriter(file_name, engine='xlsxwriter')
     col = 0
+
+    d = dict(zip(range(len(df_list)*3), list(string.ascii_uppercase)[1:]))
     for dataframe in df_list:
-        dataframe.to_excel(writer,sheet_name=sheets, startrow=0, startcol=col)
+        dataframe.iloc[:,1] = pd.Series(["{0:.2f}%".format(val * 100) for val in dataframe.iloc[:,1]], index=dataframe.index)
+        dataframe.to_excel(writer, sheet_name=sheets, startrow=0, startcol=col)
         col = col + len(dataframe.columns) + spaces + 1
     writer.save()
 
@@ -382,7 +386,8 @@ def analyze_population(cb):
             FASTEST_DECLINING_ALL_DEATHS
             ]
 
-    write_multiple_dfs(temp, 'Validation', 'reports.xlsx', 1)
+    report_name = "MLG MSA Analysis {DATETIME}.xlsx".format(DATETIME=datetime.now().strftime("%m.%d.%Y-%H%M%S"))
+    write_multiple_dfs(temp, 'MLG MSA Tables', report_name, 1)
     print
 
     # SAVE TO EXCEL
