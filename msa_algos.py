@@ -77,8 +77,6 @@ def analyze_population(cb):
     df_relative_analysis["_5_YEAR_POPULATION_RATE_CHANGE"] = df[df.columns.intersection(_5_YEAR_CHANGE_SLICE)].mean(axis=1) / _5_YEAR_POP_AVG
     df_relative_analysis["_ALL_YEAR_POPULATION_RATE_CHANGE"] = df[df.columns.intersection(_ALL_YEAR_CHANGE_SLICE)].mean(axis=1) / _ALL_YEAR_POP_AVG
 
-
-
     # DOMESTIC MIGRATION
     _2_YEAR_DOMESTIC_MIGRATION = features[75:77]
     _3_YEAR_DOMESTIC_MIGRATION = features[74:77]
@@ -213,17 +211,126 @@ def analyze_population(cb):
     df_abs_states["CBSA NAME"] = CBSA_NAMES
     df_abs_analysis["CBSA NAME"] = CBSA_NAMES
 
-    # GET FASTEST GROWING YOY
-    FASTEST_GROWING_YOY = df_relative_analysis.sort_values(by=["POPESTIMATE2019_%CHG"], ascending=False).head(round(len(df_relative_analysis) * THRESHOLD_TOP))[["CBSA NAME", "POPESTIMATE2019_%CHG"]]
-    FASTEST_DECLINING_YOY = df_relative_analysis.sort_values(by=["POPESTIMATE2019_%CHG"], ascending=True).head(round(len(df_relative_analysis) * THRESHOLD_BOTTOM))[["CBSA NAME", "POPESTIMATE2019_%CHG"]]
-    FASTEST_GROWING_2_YEAR = df_relative_analysis.sort_values(by=["_2_YEAR_POPULATION_RATE_CHANGE"], ascending=False).head(round(len(df_relative_analysis) * THRESHOLD_TOP))[["CBSA NAME", "_2_YEAR_POPULATION_RATE_CHANGE"]]
-    FASTEST_DECLINING_2_YEAR = df_relative_analysis.sort_values(by=["_2_YEAR_POPULATION_RATE_CHANGE"], ascending=True).head(round(len(df_relative_analysis) * THRESHOLD_BOTTOM))[["CBSA NAME", "_2_YEAR_POPULATION_RATE_CHANGE"]]
-    FASTEST_GROWING_3_YEAR = df_relative_analysis.sort_values(by=["_3_YEAR_POPULATION_RATE_CHANGE"], ascending=False).head(round(len(df_relative_analysis) * THRESHOLD_TOP))[["CBSA NAME", "_3_YEAR_POPULATION_RATE_CHANGE"]]
-    FASTEST_DECLINING_3_YEAR = df_relative_analysis.sort_values(by=["_3_YEAR_POPULATION_RATE_CHANGE"], ascending=True).head(round(len(df_relative_analysis) * THRESHOLD_BOTTOM))[["CBSA NAME", "_3_YEAR_POPULATION_RATE_CHANGE"]]
-    FASTEST_GROWING_5_YEAR = df_relative_analysis.sort_values(by=["_5_YEAR_POPULATION_RATE_CHANGE"], ascending=False).head(round(len(df_relative_analysis) * THRESHOLD_TOP))[["CBSA NAME", "_5_YEAR_POPULATION_RATE_CHANGE"]]
-    FASTEST_DECLINING_5_YEAR = df_relative_analysis.sort_values(by=["_5_YEAR_POPULATION_RATE_CHANGE"], ascending=True).head(round(len(df_relative_analysis) * THRESHOLD_BOTTOM))[["CBSA NAME", "_5_YEAR_POPULATION_RATE_CHANGE"]]
-    FASTEST_GROWING_ALL_YEAR = df_relative_analysis.sort_values(by=["_ALL_YEAR_POPULATION_RATE_CHANGE"], ascending=False).head(round(len(df_relative_analysis) * THRESHOLD_TOP))[["CBSA NAME", "_ALL_YEAR_POPULATION_RATE_CHANGE"]]
-    FASTEST_DECLINING_ALL_YEAR = df_relative_analysis.sort_values(by=["_ALL_YEAR_POPULATION_RATE_CHANGE"], ascending=True).head(round(len(df_relative_analysis) * THRESHOLD_BOTTOM))[["CBSA NAME", "_ALL_YEAR_POPULATION_RATE_CHANGE"]]
+    # GET FASTEST GROWING/DECLINING YOY
+    FASTEST_GROWING_YOY = df_relative_analysis.sort_values(by=["POPESTIMATE2019_%CHG"], ascending=False).head(
+        round(len(df_relative_analysis) * THRESHOLD_TOP))[["CBSA NAME", "POPESTIMATE2019_%CHG"]]
+    FASTEST_DECLINING_YOY = df_relative_analysis.sort_values(by=["POPESTIMATE2019_%CHG"], ascending=True).head(
+        round(len(df_relative_analysis) * THRESHOLD_BOTTOM))[["CBSA NAME", "POPESTIMATE2019_%CHG"]]
+    FASTEST_GROWING_2_YEAR = df_relative_analysis.sort_values(by=["_2_YEAR_POPULATION_RATE_CHANGE"], ascending=False).head(
+        round(len(df_relative_analysis) * THRESHOLD_TOP))[["CBSA NAME", "_2_YEAR_POPULATION_RATE_CHANGE"]]
+    FASTEST_DECLINING_2_YEAR = df_relative_analysis.sort_values(by=["_2_YEAR_POPULATION_RATE_CHANGE"], ascending=True).head(
+        round(len(df_relative_analysis) * THRESHOLD_BOTTOM))[["CBSA NAME", "_2_YEAR_POPULATION_RATE_CHANGE"]]
+    FASTEST_GROWING_3_YEAR = df_relative_analysis.sort_values(by=["_3_YEAR_POPULATION_RATE_CHANGE"], ascending=False).head(
+        round(len(df_relative_analysis) * THRESHOLD_TOP))[["CBSA NAME", "_3_YEAR_POPULATION_RATE_CHANGE"]]
+    FASTEST_DECLINING_3_YEAR = df_relative_analysis.sort_values(by=["_3_YEAR_POPULATION_RATE_CHANGE"], ascending=True).head(
+        round(len(df_relative_analysis) * THRESHOLD_BOTTOM))[["CBSA NAME", "_3_YEAR_POPULATION_RATE_CHANGE"]]
+    FASTEST_GROWING_5_YEAR = df_relative_analysis.sort_values(by=["_5_YEAR_POPULATION_RATE_CHANGE"], ascending=False).head(
+        round(len(df_relative_analysis) * THRESHOLD_TOP))[["CBSA NAME", "_5_YEAR_POPULATION_RATE_CHANGE"]]
+    FASTEST_DECLINING_5_YEAR = df_relative_analysis.sort_values(by=["_5_YEAR_POPULATION_RATE_CHANGE"], ascending=True).head(
+        round(len(df_relative_analysis) * THRESHOLD_BOTTOM))[["CBSA NAME", "_5_YEAR_POPULATION_RATE_CHANGE"]]
+    FASTEST_GROWING_ALL_YEAR = df_relative_analysis.sort_values(by=["_ALL_YEAR_POPULATION_RATE_CHANGE"], ascending=False).head(
+        round(len(df_relative_analysis) * THRESHOLD_TOP))[["CBSA NAME", "_ALL_YEAR_POPULATION_RATE_CHANGE"]]
+    FASTEST_DECLINING_ALL_YEAR = df_relative_analysis.sort_values(by=["_ALL_YEAR_POPULATION_RATE_CHANGE"], ascending=True).head(
+        round(len(df_relative_analysis) * THRESHOLD_BOTTOM))[["CBSA NAME", "_ALL_YEAR_POPULATION_RATE_CHANGE"]]
+
+    # BUILD DOMESTIC TABLES
+    FASTEST_GROWING_2_DOMESTIC = df_relative_analysis.sort_values(by=["2_YEAR_DOMESTIC_MIGRATION"], ascending=False).head(
+        round(len(df_relative_analysis) * THRESHOLD_TOP))[["CBSA NAME", "2_YEAR_DOMESTIC_MIGRATION"]]
+    FASTEST_DECLINING_2_DOMESTIC = df_relative_analysis.sort_values(by=["2_YEAR_DOMESTIC_MIGRATION"], ascending=True).head(
+        round(len(df_relative_analysis) * THRESHOLD_TOP))[["CBSA NAME", "2_YEAR_DOMESTIC_MIGRATION"]]
+    FASTEST_GROWING_3_DOMESTIC = df_relative_analysis.sort_values(by=["3_YEAR_DOMESTIC_MIGRATION"], ascending=False).head(
+        round(len(df_relative_analysis) * THRESHOLD_TOP))[["CBSA NAME", "3_YEAR_DOMESTIC_MIGRATION"]]
+    FASTEST_DECLINING_3_DOMESTIC = df_relative_analysis.sort_values(by=["3_YEAR_DOMESTIC_MIGRATION"], ascending=True).head(
+        round(len(df_relative_analysis) * THRESHOLD_TOP))[["CBSA NAME", "3_YEAR_DOMESTIC_MIGRATION"]]
+    FASTEST_GROWING_5_DOMESTIC = df_relative_analysis.sort_values(by=["5_YEAR_DOMESTIC_MIGRATION"], ascending=False).head(
+        round(len(df_relative_analysis) * THRESHOLD_TOP))[["CBSA NAME", "5_YEAR_DOMESTIC_MIGRATION"]]
+    FASTEST_DECLINING_5_DOMESTIC = df_relative_analysis.sort_values(by=["5_YEAR_DOMESTIC_MIGRATION"], ascending=True).head(
+        round(len(df_relative_analysis) * THRESHOLD_TOP))[["CBSA NAME", "5_YEAR_DOMESTIC_MIGRATION"]]
+    FASTEST_GROWING_ALL_DOMESTIC = df_relative_analysis.sort_values(by=["ALL_YEAR_DOMESTIC_MIGRATION"], ascending=False).head(
+        round(len(df_relative_analysis) * THRESHOLD_TOP))[["CBSA NAME", "ALL_YEAR_DOMESTIC_MIGRATION"]]
+    FASTEST_DECLINING_ALL_DOMESTIC = df_relative_analysis.sort_values(by=["ALL_YEAR_DOMESTIC_MIGRATION"], ascending=True).head(
+        round(len(df_relative_analysis) * THRESHOLD_TOP))[["CBSA NAME", "ALL_YEAR_DOMESTIC_MIGRATION"]]
+
+    FASTEST_GROWING_2_INT = \
+    df_relative_analysis.sort_values(by=["2_YEAR_INTERNATIONAL_MIGRATION"], ascending=False).head(
+        round(len(df_relative_analysis) * THRESHOLD_TOP))[["CBSA NAME", "2_YEAR_INTERNATIONAL_MIGRATION"]]
+    FASTEST_DECLINING_2_INT = \
+    df_relative_analysis.sort_values(by=["2_YEAR_INTERNATIONAL_MIGRATION"], ascending=True).head(
+        round(len(df_relative_analysis) * THRESHOLD_TOP))[["CBSA NAME", "2_YEAR_INTERNATIONAL_MIGRATION"]]
+    FASTEST_GROWING_3_INT = \
+    df_relative_analysis.sort_values(by=["3_YEAR_INTERNATIONAL_MIGRATION"], ascending=False).head(
+        round(len(df_relative_analysis) * THRESHOLD_TOP))[["CBSA NAME", "3_YEAR_INTERNATIONAL_MIGRATION"]]
+    FASTEST_DECLINING_3_INT = \
+    df_relative_analysis.sort_values(by=["3_YEAR_INTERNATIONAL_MIGRATION"], ascending=True).head(
+        round(len(df_relative_analysis) * THRESHOLD_TOP))[["CBSA NAME", "3_YEAR_INTERNATIONAL_MIGRATION"]]
+    FASTEST_GROWING_5_INT = \
+    df_relative_analysis.sort_values(by=["3_YEAR_INTERNATIONAL_MIGRATION"], ascending=False).head(
+        round(len(df_relative_analysis) * THRESHOLD_TOP))[["CBSA NAME", "3_YEAR_INTERNATIONAL_MIGRATION"]]
+    FASTEST_DECLINING_5_INT = \
+    df_relative_analysis.sort_values(by=["3_YEAR_INTERNATIONAL_MIGRATION"], ascending=True).head(
+        round(len(df_relative_analysis) * THRESHOLD_TOP))[["CBSA NAME", "3_YEAR_INTERNATIONAL_MIGRATION"]]
+    FASTEST_GROWING_ALL_INT = \
+    df_relative_analysis.sort_values(by=["3_YEAR_INTERNATIONAL_MIGRATION"], ascending=False).head(
+        round(len(df_relative_analysis) * THRESHOLD_TOP))[["CBSA NAME", "3_YEAR_INTERNATIONAL_MIGRATION"]]
+    FASTEST_DECLINING_ALL_INT = \
+    df_relative_analysis.sort_values(by=["3_YEAR_INTERNATIONAL_MIGRATION"], ascending=True).head(
+        round(len(df_relative_analysis) * THRESHOLD_TOP))[["CBSA NAME", "3_YEAR_INTERNATIONAL_MIGRATION"]]
+
+    # BUILD BIRTHS AND DEATHS
+    FASTEST_GROWING_2_BIRTHS = \
+        df_relative_analysis.sort_values(by=["2_YEAR_BIRTHS"], ascending=False).head(
+            round(len(df_relative_analysis) * THRESHOLD_TOP))[["CBSA NAME", "2_YEAR_BIRTHS"]]
+    FASTEST_DECLINING_2_BIRTHS = \
+        df_relative_analysis.sort_values(by=["2_YEAR_BIRTHS"], ascending=True).head(
+            round(len(df_relative_analysis) * THRESHOLD_TOP))[["CBSA NAME", "2_YEAR_BIRTHS"]]
+    FASTEST_GROWING_3_BIRTHS = \
+        df_relative_analysis.sort_values(by=["3_YEAR_BIRTHS"], ascending=False).head(
+            round(len(df_relative_analysis) * THRESHOLD_TOP))[["CBSA NAME", "3_YEAR_BIRTHS"]]
+    FASTEST_DECLINING_3_BIRTHS = \
+        df_relative_analysis.sort_values(by=["3_YEAR_BIRTHS"], ascending=True).head(
+            round(len(df_relative_analysis) * THRESHOLD_TOP))[["CBSA NAME", "3_YEAR_BIRTHS"]]
+    FASTEST_GROWING_5_BIRTHS = \
+        df_relative_analysis.sort_values(by=["5_YEAR_BIRTHS"], ascending=False).head(
+            round(len(df_relative_analysis) * THRESHOLD_TOP))[["CBSA NAME", "5_YEAR_BIRTHS"]]
+    FASTEST_DECLINING_5_BIRTHS = \
+        df_relative_analysis.sort_values(by=["5_YEAR_BIRTHS"], ascending=True).head(
+            round(len(df_relative_analysis) * THRESHOLD_TOP))[["CBSA NAME", "5_YEAR_BIRTHS"]]
+    FASTEST_GROWING_ALL_BIRTHS = \
+        df_relative_analysis.sort_values(by=["ALL_YEAR_BIRTHS"], ascending=False).head(
+            round(len(df_relative_analysis) * THRESHOLD_TOP))[["CBSA NAME", "ALL_YEAR_BIRTHS"]]
+    FASTEST_DECLINING_ALL_BIRTHS = \
+        df_relative_analysis.sort_values(by=["ALL_YEAR_BIRTHS"], ascending=True).head(
+            round(len(df_relative_analysis) * THRESHOLD_TOP))[["CBSA NAME", "ALL_YEAR_BIRTHS"]]
+
+    FASTEST_GROWING_2_DEATHS = \
+        df_relative_analysis.sort_values(by=["2_YEAR_DEATHS"], ascending=False).head(
+            round(len(df_relative_analysis) * THRESHOLD_TOP))[["CBSA NAME", "2_YEAR_DEATHS"]]
+    FASTEST_DECLINING_2_DEATHS = \
+        df_relative_analysis.sort_values(by=["2_YEAR_DEATHS"], ascending=True).head(
+            round(len(df_relative_analysis) * THRESHOLD_TOP))[["CBSA NAME", "2_YEAR_DEATHS"]]
+    FASTEST_GROWING_3_DEATHS = \
+        df_relative_analysis.sort_values(by=["3_YEAR_DEATHS"], ascending=False).head(
+            round(len(df_relative_analysis) * THRESHOLD_TOP))[["CBSA NAME", "3_YEAR_DEATHS"]]
+    FASTEST_DECLINING_3_DEATHS = \
+        df_relative_analysis.sort_values(by=["3_YEAR_DEATHS"], ascending=True).head(
+            round(len(df_relative_analysis) * THRESHOLD_TOP))[["CBSA NAME", "3_YEAR_DEATHS"]]
+    FASTEST_GROWING_5_DEATHS = \
+        df_relative_analysis.sort_values(by=["5_YEAR_DEATHS"], ascending=False).head(
+            round(len(df_relative_analysis) * THRESHOLD_TOP))[["CBSA NAME", "5_YEAR_DEATHS"]]
+    FASTEST_DECLINING_5_DEATHS = \
+        df_relative_analysis.sort_values(by=["5_YEAR_DEATHS"], ascending=True).head(
+            round(len(df_relative_analysis) * THRESHOLD_TOP))[["CBSA NAME", "5_YEAR_DEATHS"]]
+    FASTEST_GROWING_ALL_DEATHS = \
+        df_relative_analysis.sort_values(by=["ALL_YEAR_DEATHS"], ascending=False).head(
+            round(len(df_relative_analysis) * THRESHOLD_TOP))[["CBSA NAME", "ALL_YEAR_DEATHS"]]
+    FASTEST_DECLINING_ALL_DEATHS = \
+        df_relative_analysis.sort_values(by=["ALL_YEAR_DEATHS"], ascending=True).head(
+            round(len(df_relative_analysis) * THRESHOLD_TOP))[["CBSA NAME", "ALL_YEAR_DEATHS"]]
+
+
+
+
+
 
 
     print
