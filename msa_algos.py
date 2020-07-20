@@ -10,13 +10,13 @@ mappings = Mappings()
 def write_multiple_dfs(writer, df_list, sheets, spaces):
     col = 0
     for dataframe in df_list:
-        dataframe.iloc[:,1] = pd.Series(["{0:.2f}%".format(val * 100) for val in dataframe.iloc[:,1]], index=dataframe.index)
+        # dataframe.iloc[:,1] = pd.Series(["{0:.2f}%".format(val * 100) for val in dataframe.iloc[:,1]], index=dataframe.index)
         dataframe.to_excel(writer, sheet_name=sheets, startrow=0, startcol=col)
         col = col + len(dataframe.columns) + spaces + 1
     writer.save()
 
 
-def analyze_population(cb, export):
+def analyze_population(cb, export, plot):
     """
     Algorithm for analyzing population data in the US
 
@@ -339,19 +339,19 @@ def analyze_population(cb, export):
             round(len(df_relative_analysis) * THRESHOLD_TOP))[["CBSA NAME", "3_YEAR_INTERNATIONAL_MIGRATION"]].join(
             df[["POPESTIMATE2019", "NPOPCHG2019"]])
     FASTEST_GROWING_5_INT = \
-        df_relative_analysis.sort_values(by=["3_YEAR_INTERNATIONAL_MIGRATION"], ascending=False).head(
+        df_relative_analysis.sort_values(by=["5_YEAR_INTERNATIONAL_MIGRATION"], ascending=False).head(
             round(len(df_relative_analysis) * THRESHOLD_TOP))[["CBSA NAME", "3_YEAR_INTERNATIONAL_MIGRATION"]].join(
             df[["POPESTIMATE2019", "NPOPCHG2019"]])
     FASTEST_DECLINING_5_INT = \
-        df_relative_analysis.sort_values(by=["3_YEAR_INTERNATIONAL_MIGRATION"], ascending=True).head(
+        df_relative_analysis.sort_values(by=["5_YEAR_INTERNATIONAL_MIGRATION"], ascending=True).head(
             round(len(df_relative_analysis) * THRESHOLD_TOP))[["CBSA NAME", "3_YEAR_INTERNATIONAL_MIGRATION"]].join(
             df[["POPESTIMATE2019", "NPOPCHG2019"]])
     FASTEST_GROWING_ALL_INT = \
-        df_relative_analysis.sort_values(by=["3_YEAR_INTERNATIONAL_MIGRATION"], ascending=False).head(
+        df_relative_analysis.sort_values(by=["ALL_YEAR_INTERNATIONAL_MIGRATION"], ascending=False).head(
             round(len(df_relative_analysis) * THRESHOLD_TOP))[["CBSA NAME", "3_YEAR_INTERNATIONAL_MIGRATION"]].join(
             df[["POPESTIMATE2019", "NPOPCHG2019"]])
     FASTEST_DECLINING_ALL_INT = \
-        df_relative_analysis.sort_values(by=["3_YEAR_INTERNATIONAL_MIGRATION"], ascending=True).head(
+        df_relative_analysis.sort_values(by=["ALL_YEAR_INTERNATIONAL_MIGRATION"], ascending=True).head(
             round(len(df_relative_analysis) * THRESHOLD_TOP))[["CBSA NAME", "3_YEAR_INTERNATIONAL_MIGRATION"]].join(
             df[["POPESTIMATE2019", "NPOPCHG2019"]])
 
@@ -479,29 +479,30 @@ def analyze_population(cb, export):
         write_multiple_dfs(writer, all_df_reports, 'MLG MSA Tables', 1)
         writer.save()
 
-    import plotly.express as px
-    state_list = mappings.states_df["state"].values.tolist()
-    graphs_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "data", "reports", "graphs", "states")
-    df_population_growth_graphs = df_relative_analysis.iloc[:, 0:9]
-    df_population_growth_graphs["STATE"] = df_relative_analysis["STATE"]
-    # df_population_growth_graphs = df_population_growth_graphs.reset_index()
-    for state in state_list:
-        p = os.path.join(graphs_path, state + ".png")
-        to_graph_df = df_population_growth_graphs[df_population_growth_graphs["STATE"] == state]
-        if not to_graph_df.empty:
-            del to_graph_df["STATE"]
-            to_graph_df.columns = list(range(2011, 2020))
-            to_graph_df = to_graph_df.stack().reset_index()
-            to_graph_df.columns = ["CBSA", "Year", "% Change"]
-            fig = px.line(to_graph_df, x='Year', y="% Change", color="CBSA")
-            fig.write_image(p)
+    if plot:
+        import plotly.express as px
+        state_list = mappings.states_df["state"].values.tolist()
+        graphs_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "data", "reports", "graphs", "states")
+        df_population_growth_graphs = df_relative_analysis.iloc[:, 0:9]
+        df_population_growth_graphs["STATE"] = df_relative_analysis["STATE"]
+        # df_population_growth_graphs = df_population_growth_graphs.reset_index()
+        for state in state_list:
+            p = os.path.join(graphs_path, state + ".png")
+            to_graph_df = df_population_growth_graphs[df_population_growth_graphs["STATE"] == state]
+            if not to_graph_df.empty:
+                del to_graph_df["STATE"]
+                to_graph_df.columns = list(range(2011, 2020))
+                to_graph_df = to_graph_df.stack().reset_index()
+                to_graph_df.columns = ["CBSA", "Year", "% Change"]
+                fig = px.line(to_graph_df, x='Year', y="% Change", color="CBSA")
+                fig.write_image(p)
 
 
 
 
 def main():
     cb = CensusBureau()
-    analyze_population(cb, export=0)
+    analyze_population(cb, export=1, plot=0)
 
 
 if __name__ == "__main__":
