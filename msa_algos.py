@@ -27,11 +27,16 @@ def analyze_population(cb, export, plot):
     :return:
     """
 
+    # HARDCODED POPULATION THRESHOLD - SET TO 100,000
+    POPULATION_THRESHOLD = 100000
     THRESHOLD_TOP = .10
     THRESHOLD_BOTTOM = .10
 
     features = cb.pop_features
     df = cb.fetch_population_csv()
+    df = df[df["POPESTIMATE2019"] >= POPULATION_THRESHOLD]
+    _2019_MEDIAN = df["POPESTIMATE2019"].median()
+    # pd.qcut(df["POPESTIMATE2019"], 10, labels=False)
     CBSA_NAMES = df[["CBSA", "NAME"]][
         (df["LSAD"] == "Metropolitan Statistical Area") | (df["LSAD"] == "Micropolitan Statistical Area")].set_index(
         "CBSA")
@@ -242,6 +247,18 @@ def analyze_population(cb, export, plot):
     df_relative_analysis["STATE"] = df_abs_analysis["FIPS"].map(mappings.states_df["state"])
 
     df_abs_states = df_abs_analysis.groupby("STATE").sum()
+
+    # ASSIGN RANKINGS
+    # DO RELATIVE FIRST
+    df_all_rankings = pd.DataFrame(index=df.index)
+    for col in df_relative_analysis.columns[:-2]:
+        col_name = col + "_RANK"
+        df_all_rankings[col_name] = pd.qcut(df_relative_analysis[col], 10, labels=False)
+
+    for col in df_abs_analysis.columns[:-2]:
+        col_name = col + "_RANK"
+        df_all_rankings[col_name] = pd.qcut(df_abs_analysis[col], 10, labels=False)
+
 
     # RANKINGS & REPORTS
     df_relative_analysis["CBSA NAME"] = CBSA_NAMES
@@ -476,6 +493,7 @@ def analyze_population(cb, export, plot):
         df_relative_analysis.to_excel(writer, sheet_name="relative_CBSA_analysis")
         df_abs_analysis.to_excel(writer, sheet_name="absolute_CBSA_analysis")
         df_abs_states.to_excel(writer, sheet_name="state_aggregation")
+        df_all_rankings.to_excel(writer, sheet_name="Rankings")
         write_multiple_dfs(writer, all_df_reports, 'MLG MSA Tables', 1)
         writer.save()
 
@@ -496,8 +514,6 @@ def analyze_population(cb, export, plot):
                 to_graph_df.columns = ["CBSA", "Year", "% Change"]
                 fig = px.line(to_graph_df, x='Year', y="% Change", color="CBSA")
                 fig.write_image(p)
-
-
 
 
 def main():
