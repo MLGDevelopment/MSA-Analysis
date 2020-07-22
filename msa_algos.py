@@ -16,6 +16,20 @@ def write_multiple_dfs(writer, df_list, sheets, spaces):
     writer.save()
 
 
+def replace_ranks(df):
+    # REPLACE WITH [-5, 5]
+    df = df.replace(0, -5)
+    df = df.replace(1, -4)
+    df = df.replace(2, -3)
+    df = df.replace(3, -2)
+    df = df.replace(4, -1)
+    df = df.replace(5, 1)
+    df = df.replace(6, 2)
+    df = df.replace(7, 3)
+    df = df.replace(8, 4)
+    df = df.replace(9, 5)
+    return df
+
 def analyze_population(cb, export, plot):
     """
     Algorithm for analyzing population data in the US
@@ -255,10 +269,18 @@ def analyze_population(cb, export, plot):
         col_name = col + "_RANK"
         df_all_rankings[col_name] = pd.qcut(df_relative_analysis[col], 10, labels=False)
 
+    df_all_rankings = replace_ranks(df_all_rankings)
+    relative_ranks = df_all_rankings.sum(axis=1)
+
     for col in df_abs_analysis.columns[:-2]:
         col_name = col + "_RANK"
         df_all_rankings[col_name] = pd.qcut(df_abs_analysis[col], 10, labels=False)
 
+    df_all_rankings = replace_ranks(df_all_rankings)
+    df_all_rankings["MSA POP RELATIVE RANKING"] = relative_ranks
+    df_all_rankings["MSA POP ABSOLUTE RANKING"] = df_all_rankings.sum(axis=1)
+
+    df_all_rankings["CBSA NAME"] = CBSA_NAMES
 
     # RANKINGS & REPORTS
     df_relative_analysis["CBSA NAME"] = CBSA_NAMES
