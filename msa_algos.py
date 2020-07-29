@@ -2,8 +2,9 @@ from DataScraper import CensusBureau
 from DataScraper import Mappings
 import pandas as pd
 import os
-import string
 from datetime import datetime
+from Costar import CostarMF
+
 mappings = Mappings()
 
 
@@ -269,18 +270,35 @@ def analyze_population(cb, export, plot):
         col_name = col + "_RANK"
         df_all_rankings[col_name] = pd.qcut(df_relative_analysis[col], 10, labels=False)
 
-    df_all_rankings = replace_ranks(df_all_rankings)
-    relative_ranks = df_all_rankings.sum(axis=1)
-
     for col in df_abs_analysis.columns[:-2]:
         col_name = col + "_RANK"
         df_all_rankings[col_name] = pd.qcut(df_abs_analysis[col], 10, labels=False)
 
-    df_all_rankings = replace_ranks(df_all_rankings)
-    df_all_rankings["MSA POP RELATIVE RANKING"] = relative_ranks
-    df_all_rankings["MSA POP ABSOLUTE RANKING"] = df_all_rankings.sum(axis=1)
-
     df_all_rankings["CBSA NAME"] = CBSA_NAMES
+
+    df_consolidated_rankings = pd.DataFrame(index=df.index)
+    df_consolidated_rankings["CBSA NAME"] = CBSA_NAMES
+
+    df_consolidated_rankings["3 Year Growth Rank"] = df_all_rankings["_3_YEAR_POPULATION_RATE_CHANGE_RANK"]
+    df_consolidated_rankings["5 Year Growth Rank"] = df_all_rankings["_5_YEAR_POPULATION_RATE_CHANGE_RANK"]
+    df_consolidated_rankings["10 Year Growth Rank"] = df_all_rankings["_ALL_YEAR_POPULATION_RATE_CHANGE_RANK"]
+    sum_list = ["3 Year Growth Rank", "5 Year Growth Rank", "10 Year Growth Rank"]
+    df_consolidated_rankings["Total Growth Rank"] = df_consolidated_rankings[sum_list].sum(axis=1)
+
+    df_consolidated_rankings["3 Year Dom. Growth Rank"] = df_all_rankings["3_YEAR_DOMESTIC_MIGRATION_RANK"]
+    df_consolidated_rankings["5 Year Dom. Growth Rank"] = df_all_rankings["5_YEAR_DOMESTIC_MIGRATION_RANK"]
+    df_consolidated_rankings["10 Year Dom. Growth Rank"] = df_all_rankings["ALL_YEAR_DOMESTIC_MIGRATION_RANK"]
+    sum_list = ["3 Year Dom. Growth Rank", "5 Year Dom. Growth Rank", "10 Year Dom. Growth Rank"]
+    df_consolidated_rankings["Total Dom. Rank"] = df_consolidated_rankings[sum_list].sum(axis=1)
+
+    df_consolidated_rankings["3 Year Int. Growth Rank"] = df_all_rankings["3_YEAR_INTERNATIONAL_MIGRATION_RANK"]
+    df_consolidated_rankings["5 Year Int. Growth Rank"] = df_all_rankings["5_YEAR_INTERNATIONAL_MIGRATION_RANK"]
+    df_consolidated_rankings["10 Year Int. Growth Rank"] = df_all_rankings["ALL_YEAR_INTERNATIONAL_MIGRATION_RANK"]
+    sum_list = ["3 Year Int. Growth Rank", "5 Year Int. Growth Rank", "10 Year Int. Growth Rank"]
+    df_consolidated_rankings["Total Int. Rank"] = df_consolidated_rankings[sum_list].sum(axis=1)
+
+
+
 
     # RANKINGS & REPORTS
     df_relative_analysis["CBSA NAME"] = CBSA_NAMES
@@ -516,6 +534,7 @@ def analyze_population(cb, export, plot):
         df_abs_analysis.to_excel(writer, sheet_name="absolute_CBSA_analysis")
         df_abs_states.to_excel(writer, sheet_name="state_aggregation")
         df_all_rankings.to_excel(writer, sheet_name="Rankings")
+        df_consolidated_rankings.to_excel(writer, sheet_name="Consolidated Rankings")
         write_multiple_dfs(writer, all_df_reports, 'MLG MSA Tables', 1)
         writer.save()
 
@@ -539,6 +558,7 @@ def analyze_population(cb, export, plot):
 
 
 def main():
+    mf = CostarMF("costar_mf_all_cbsa_train.xlsx")
     cb = CensusBureau()
     analyze_population(cb, export=1, plot=0)
 

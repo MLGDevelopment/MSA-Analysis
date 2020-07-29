@@ -15,6 +15,8 @@ from urllib.request import urlopen
 import requests
 import io
 import os
+import json
+
 
 # fetch_CS_price_index()
 # census_conn = Census(CENSUS_API)
@@ -28,6 +30,20 @@ WALK_SCORE = "655a7c936568b9030f821b9c549ee261"
 CBSA = pd.read_excel("CBSA_Master.xls")
 fred = Fred(api_key=FRED_API)
 CBSA_consolidated_mapping = pd.pivot_table(CBSA, index=["CBSA Title"])["CBSA Code"]
+
+
+class BureauEconomicAnalysis:
+
+    API_KEY = "06800A25-B03C-45A8-885B-BB2D337FA783"
+
+    def __init__(self):
+        self.call = "https://apps.bea.gov/api/data/?UserID={API_KEY}&method=GetData&datasetname=Regional&TableName=CAGDP2&LineCode=2&Year=ALL&GeoFips=CSA&ResultFormat=JSON".format(API_KEY=self.API_KEY)
+        data = requests.get(self.call).content
+        json.loads(data)
+        pd.read_json(data)
+        # io.BytesIO(data.decode('utf-8'))
+        df = pd.read_csv(io.StringIO(data.decode('latin-1')), converters={'CBSA': str})
+        df["CBSA"] = df["CBSA"].map(int)
 
 
 class CensusBureau:
