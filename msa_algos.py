@@ -299,10 +299,18 @@ def analyze_population(cb, costar_mf, export, plot):
     t_cbsas = list(costar_mf.cbsa_grouped_dfs.keys())
     median_income_map = {}
     for cbsa in t_cbsas:
-        median_income_map[cbsa] = {"2019 Median HHI": costar_mf.cbsa_grouped_dfs[cbsa]["Median Household Income"].filter(like="2019").values[0],
-                                   "2016 Median HHI": costar_mf.cbsa_grouped_dfs[cbsa]["Median Household Income"].filter(like="2016").values[0],
-                                   "2014 Median HHI": costar_mf.cbsa_grouped_dfs[cbsa]["Median Household Income"].filter(like="2014").values[0],
-                                   "2010 Median HHI": costar_mf.cbsa_grouped_dfs[cbsa]["Median Household Income"].filter(like="2009").values[0]}
+        _2019_Median_HHI = costar_mf.cbsa_grouped_dfs[cbsa]["Median Household Income"].filter(like="2019").values[0]
+        _2016_Median_HHI = costar_mf.cbsa_grouped_dfs[cbsa]["Median Household Income"].filter(like="2016").values[0]
+        _2014_Median_HHI = costar_mf.cbsa_grouped_dfs[cbsa]["Median Household Income"].filter(like="2014").values[0]
+        _2010_Median_HHI = costar_mf.cbsa_grouped_dfs[cbsa]["Median Household Income"].filter(like="2009").values[0]
+        median_income_map[cbsa] = {"2019 Median HHI": _2019_Median_HHI,
+                                   "2016 Median HHI": _2016_Median_HHI,
+                                   "2014 Median HHI": _2014_Median_HHI,
+                                   "2010 Median HHI": _2010_Median_HHI,
+                                   "3 Year Median Income Change": _2019_Median_HHI / _2016_Median_HHI - 1,
+                                   "5 Year Median Income Change": _2019_Median_HHI / _2014_Median_HHI - 1,
+                                   "10 Year Median Income Change": _2019_Median_HHI / _2010_Median_HHI - 1,
+                                   }
 
     median_inc_map_df = pd.DataFrame.from_dict(median_income_map, orient='index')
     df_consolidated_rankings = df_consolidated_rankings.join(median_inc_map_df)
@@ -568,7 +576,7 @@ def analyze_population(cb, costar_mf, export, plot):
 
 
 def main():
-    costar_mf = CostarMF("costar_mf_all_cbsa_train.xlsx")
+    costar_mf = CostarMF("costar_mf_all_cbsa.xlsx")
     cb = CensusBureau()
     analyze_population(cb, costar_mf, export=1, plot=0)
 
