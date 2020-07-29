@@ -31,7 +31,7 @@ def replace_ranks(df):
     df = df.replace(9, 5)
     return df
 
-def analyze_population(cb, export, plot):
+def analyze_population(cb, costar_mf, export, plot):
     """
     Algorithm for analyzing population data in the US
 
@@ -279,25 +279,33 @@ def analyze_population(cb, export, plot):
     df_consolidated_rankings = pd.DataFrame(index=df.index)
     df_consolidated_rankings["CBSA NAME"] = CBSA_NAMES
 
+    df_consolidated_rankings["2019 Pop Estimate"] = df["POPESTIMATE2019"]
     df_consolidated_rankings["3 Year Growth Rank"] = df_all_rankings["_3_YEAR_POPULATION_RATE_CHANGE_RANK"]
     df_consolidated_rankings["5 Year Growth Rank"] = df_all_rankings["_5_YEAR_POPULATION_RATE_CHANGE_RANK"]
     df_consolidated_rankings["10 Year Growth Rank"] = df_all_rankings["_ALL_YEAR_POPULATION_RATE_CHANGE_RANK"]
     sum_list = ["3 Year Growth Rank", "5 Year Growth Rank", "10 Year Growth Rank"]
     df_consolidated_rankings["Total Growth Rank"] = df_consolidated_rankings[sum_list].sum(axis=1)
-
     df_consolidated_rankings["3 Year Dom. Growth Rank"] = df_all_rankings["3_YEAR_DOMESTIC_MIGRATION_RANK"]
     df_consolidated_rankings["5 Year Dom. Growth Rank"] = df_all_rankings["5_YEAR_DOMESTIC_MIGRATION_RANK"]
     df_consolidated_rankings["10 Year Dom. Growth Rank"] = df_all_rankings["ALL_YEAR_DOMESTIC_MIGRATION_RANK"]
     sum_list = ["3 Year Dom. Growth Rank", "5 Year Dom. Growth Rank", "10 Year Dom. Growth Rank"]
     df_consolidated_rankings["Total Dom. Rank"] = df_consolidated_rankings[sum_list].sum(axis=1)
-
     df_consolidated_rankings["3 Year Int. Growth Rank"] = df_all_rankings["3_YEAR_INTERNATIONAL_MIGRATION_RANK"]
     df_consolidated_rankings["5 Year Int. Growth Rank"] = df_all_rankings["5_YEAR_INTERNATIONAL_MIGRATION_RANK"]
     df_consolidated_rankings["10 Year Int. Growth Rank"] = df_all_rankings["ALL_YEAR_INTERNATIONAL_MIGRATION_RANK"]
     sum_list = ["3 Year Int. Growth Rank", "5 Year Int. Growth Rank", "10 Year Int. Growth Rank"]
     df_consolidated_rankings["Total Int. Rank"] = df_consolidated_rankings[sum_list].sum(axis=1)
 
+    t_cbsas = list(costar_mf.cbsa_grouped_dfs.keys())
+    median_income_map = {}
+    for cbsa in t_cbsas:
+        median_income_map[cbsa] = {"2019 Median HHI": costar_mf.cbsa_grouped_dfs[cbsa]["Median Household Income"].filter(like="2019").values[0],
+                                   "2016 Median HHI": costar_mf.cbsa_grouped_dfs[cbsa]["Median Household Income"].filter(like="2016").values[0],
+                                   "2014 Median HHI": costar_mf.cbsa_grouped_dfs[cbsa]["Median Household Income"].filter(like="2014").values[0],
+                                   "2010 Median HHI": costar_mf.cbsa_grouped_dfs[cbsa]["Median Household Income"].filter(like="2009").values[0]}
 
+    median_inc_map_df = pd.DataFrame.from_dict(median_income_map, orient='index')
+    df_consolidated_rankings = df_consolidated_rankings.join(median_inc_map_df)
 
 
     # RANKINGS & REPORTS
@@ -525,6 +533,8 @@ def analyze_population(cb, export, plot):
                       FASTEST_DECLINING_ALL_DEATHS
                       ]
 
+
+
     # SAVE TO EXCEL
     if export:
         report_name = "MLG MSA Analysis {DATETIME}.xlsx".format(DATETIME=datetime.now().strftime("%m.%d.%Y-%H%M%S"))
@@ -558,9 +568,9 @@ def analyze_population(cb, export, plot):
 
 
 def main():
-    mf = CostarMF("costar_mf_all_cbsa_train.xlsx")
+    costar_mf = CostarMF("costar_mf_all_cbsa_train.xlsx")
     cb = CensusBureau()
-    analyze_population(cb, export=1, plot=0)
+    analyze_population(cb, costar_mf, export=1, plot=0)
 
 
 if __name__ == "__main__":
