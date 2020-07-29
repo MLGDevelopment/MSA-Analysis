@@ -4,7 +4,7 @@ import pandas as pd
 import os
 from datetime import datetime
 from Costar import CostarMF
-
+import numpy as np
 mappings = Mappings()
 
 
@@ -299,22 +299,30 @@ def analyze_population(cb, costar_mf, export, plot):
     t_cbsas = list(costar_mf.cbsa_grouped_dfs.keys())
     median_income_map = {}
     for cbsa in t_cbsas:
-        _2019_Median_HHI = costar_mf.cbsa_grouped_dfs[cbsa]["Median Household Income"].filter(like="2019").values[0]
-        _2016_Median_HHI = costar_mf.cbsa_grouped_dfs[cbsa]["Median Household Income"].filter(like="2016").values[0]
-        _2014_Median_HHI = costar_mf.cbsa_grouped_dfs[cbsa]["Median Household Income"].filter(like="2014").values[0]
-        _2010_Median_HHI = costar_mf.cbsa_grouped_dfs[cbsa]["Median Household Income"].filter(like="2009").values[0]
+        ten_yr_pop_growth = df_relative_analysis[df_relative_analysis.index == cbsa].iloc[:, 0:9]
+        t_df = ten_yr_pop_growth.rename(
+            columns={x: y for x, y in zip(df_relative_analysis.columns.tolist(), list(range(2011, 2020)))}).transpose()
+        population_growth_rent_growth_corr = np.corrcoef(t_df.values.reshape(9, ), _temp_df[(_temp_df.index > 2010) & (_temp_df.index <= 2019)][
+            "Market Effective Rent Growth 12 Mo"].values)[1][0]
+
+        _temp_df = costar_mf.cbsa_grouped_dfs[cbsa]
+        _2019_Median_HHI = _temp_df["Median Household Income"].filter(like="2019").values[0]
+        _2016_Median_HHI = _temp_df["Median Household Income"].filter(like="2016").values[0]
+        _2014_Median_HHI = _temp_df["Median Household Income"].filter(like="2014").values[0]
+        _2010_Median_HHI = _temp_df["Median Household Income"].filter(like="2009").values[0]
         median_income_map[cbsa] = {"2019 Median HHI": _2019_Median_HHI,
                                    "2016 Median HHI": _2016_Median_HHI,
                                    "2014 Median HHI": _2014_Median_HHI,
                                    "2010 Median HHI": _2010_Median_HHI,
-                                   "3 Year Median Income Change": _2019_Median_HHI / _2016_Median_HHI - 1,
-                                   "5 Year Median Income Change": _2019_Median_HHI / _2014_Median_HHI - 1,
-                                   "10 Year Median Income Change": _2019_Median_HHI / _2010_Median_HHI - 1,
+                                   "3 Year Median Income Change": _2019_Median_HHI / _2016_Median_HHI - 1 or "",
+                                   "5 Year Median Income Change": _2019_Median_HHI / _2014_Median_HHI - 1 or "",
+                                   "10 Year Median Income Change": _2019_Median_HHI / _2010_Median_HHI - 1 or "",
+                                   "Population Growth/Rent Growth Correlation": population_growth_rent_growth_corr,
+
                                    }
 
     median_inc_map_df = pd.DataFrame.from_dict(median_income_map, orient='index')
     df_consolidated_rankings = df_consolidated_rankings.join(median_inc_map_df)
-
 
     # RANKINGS & REPORTS
     df_relative_analysis["CBSA NAME"] = CBSA_NAMES
