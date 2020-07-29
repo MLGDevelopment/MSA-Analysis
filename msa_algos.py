@@ -299,13 +299,23 @@ def analyze_population(cb, costar_mf, export, plot):
     t_cbsas = list(costar_mf.cbsa_grouped_dfs.keys())
     median_income_map = {}
     for cbsa in t_cbsas:
+        _temp_df = costar_mf.cbsa_grouped_dfs[cbsa]
         ten_yr_pop_growth = df_relative_analysis[df_relative_analysis.index == cbsa].iloc[:, 0:9]
         t_df = ten_yr_pop_growth.rename(
             columns={x: y for x, y in zip(df_relative_analysis.columns.tolist(), list(range(2011, 2020)))}).transpose()
-        population_growth_rent_growth_corr = np.corrcoef(t_df.values.reshape(9, ), _temp_df[(_temp_df.index > 2010) & (_temp_df.index <= 2019)][
-            "Market Effective Rent Growth 12 Mo"].values)[1][0]
+        if t_df.values.size != 0:
+            population_growth_rent_growth_corr = np.corrcoef(t_df.values.reshape(9, ), _temp_df[(_temp_df.index > 2010) & (_temp_df.index <= 2019)][
+                "Market Effective Rent Growth 12 Mo"].values)[1][0]
+        else:
+            population_growth_rent_growth_corr = ""
 
-        _temp_df = costar_mf.cbsa_grouped_dfs[cbsa]
+        # MEDIAN HHI CORRELATION WITH RENT GROWTH
+        median_hhi_rent_growth_corr = _temp_df[(_temp_df.index > 2010) & (_temp_df.index <= 2019)]["Median Household Income"].corr(
+            _temp_df[(_temp_df.index > 2010) & (_temp_df.index <= 2019)]["Market Effective Rent Growth 12 Mo"])
+
+        cap_rate_rent_growth_corr = _temp_df[(_temp_df.index > 2010) & (_temp_df.index <= 2019)]["Cap Rate"].corr(
+            _temp_df[(_temp_df.index > 2010) & (_temp_df.index <= 2019)]["Market Effective Rent Growth 12 Mo"])
+
         _2019_Median_HHI = _temp_df["Median Household Income"].filter(like="2019").values[0]
         _2016_Median_HHI = _temp_df["Median Household Income"].filter(like="2016").values[0]
         _2014_Median_HHI = _temp_df["Median Household Income"].filter(like="2014").values[0]
@@ -317,8 +327,9 @@ def analyze_population(cb, costar_mf, export, plot):
                                    "3 Year Median Income Change": _2019_Median_HHI / _2016_Median_HHI - 1 or "",
                                    "5 Year Median Income Change": _2019_Median_HHI / _2014_Median_HHI - 1 or "",
                                    "10 Year Median Income Change": _2019_Median_HHI / _2010_Median_HHI - 1 or "",
-                                   "Population Growth/Rent Growth Correlation": population_growth_rent_growth_corr,
-
+                                   "Population Growth/Rent Growth Correlation": population_growth_rent_growth_corr or "",
+                                   "Medina HHI/Rent Growth Correlation": median_hhi_rent_growth_corr or "",
+                                   "Market Cap Rate vs Rent Growth Correlation": cap_rate_rent_growth_corr or "",
                                    }
 
     median_inc_map_df = pd.DataFrame.from_dict(median_income_map, orient='index')
