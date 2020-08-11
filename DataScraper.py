@@ -151,6 +151,7 @@ class Axio():
         #self.chrome_options.add_argument("--headless")
         self.login_path = "https://axio.realpage.com/Home"
         self.market_trends_path = "https://axio.realpage.com/Report/MarketTrendSearch"
+        self.property_report_path = "https://axio.realpage.com/PropertyReport/UnitMix/"
         self.logged_in = False
 
         try:
@@ -177,6 +178,7 @@ class Axio():
             self.driver.find_element_by_id("password").send_keys(password)
             self.driver.find_element_by_id("btnSignIn").click()
             self.logged_in = True
+            time.sleep(3)
             return 1
         except:
             return 0
@@ -263,6 +265,35 @@ class Axio():
                         quarter += 1
             pd.DataFrame(m_list)
 
+    def get_property_data(self, id):
+        path = os.path.join(self.property_report_path, str(id))
+        self.driver.get(path)
+        time.sleep(4)
+
+        tbl = self.driver.find_element_by_css_selector("#tab_unitmix > table:nth-child(5)")
+
+        unit_report_list = []
+        for row in tbl.find_elements_by_css_selector('tr'):
+            tbl_width = len(row.text.split(" "))
+            if tbl_width >= 14:
+                unit_report = {}
+                for i, cell in enumerate(row.find_elements_by_tag_name('td')):
+                    if i == 0:
+                        unit_report["Type"] = cell.text
+                    elif i == 1:
+                        unit_report["Area"] = cell.text
+                        pass
+                    elif i == 2:
+                        unit_report["Quantity"] = cell.text
+                        pass
+                    elif i == 5:
+                        unit_report["Average Market Rent"] = cell.text
+                    elif i == 9:
+                        unit_report["Average Effective"] = cell.text
+                if unit_report:
+                    unit_report_list.append(unit_report)
+
+        return unit_report_list
 
 class Costar:
 
@@ -351,10 +382,12 @@ def fetch_CS_price_index():
 def main():
     axio = Axio()
     axio.mlg_axio_login()
-    axio.pull_national_data()
+    # axio.pull_national_data()
+    axio.get_property_data(51977)
+
+    print
     # costar_mf = Costar("multifamily", "data/costar/multifamily_all.csv")
     # costar_mf.import_data()
-    pass
     # fetch_cbsa_population()
     # Case-Shiller Home Price Index
 
