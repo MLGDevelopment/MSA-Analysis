@@ -16,6 +16,10 @@ import requests
 import io
 import os
 import json
+from db_builder import session, RentComp, AxioProperty
+from datetime import date
+from sqlalchemy.sql import exists
+
 
 
 # fetch_CS_price_index()
@@ -178,7 +182,7 @@ class Axio():
             self.driver.find_element_by_id("password").send_keys(password)
             self.driver.find_element_by_id("btnSignIn").click()
             self.logged_in = True
-            time.sleep(3)
+            time.sleep(7)
             return 1
         except:
             return 0
@@ -265,35 +269,80 @@ class Axio():
                         quarter += 1
             pd.DataFrame(m_list)
 
-    def get_property_data(self, id):
+    def navigate_to_property_report(self, id):
         path = os.path.join(self.property_report_path, str(id))
         self.driver.get(path)
-        time.sleep(4)
+        time.sleep(3)
 
+    def get_property_details(self, id):
+        """
+        must call navigate_to_property_report prior to call
+        :return:
+        """
+
+        # check if property id exists in db
+        if session.query(exists().where(AxioProperty.property_id == str(id))).scalar():
+            print
+        else:
+            property_details = {}
+            property_details["property_id"] = id
+            property_details["property_address"] = self.driver.find_element_by_css_selector(
+                "#body-container > div > div.col-md-10 > div.page-header > table > tbody > tr > td:nth-child(1) > h2 > small").text
+            property_details["property_name"] = self.driver.find_element_by_css_selector("#property-name").text
+            property_details["property_owner"] = self.driver.find_element_by_css_selector(
+                "#body-container > div > div.col-md-10 > div.page-header > table > tbody > tr > td:nth-child(2) > dl > dd:nth-child(4)").text
+            property_details["property_management"] = self.driver.find_element_by_css_selector(
+                "#body-container > div > div.col-md-10 > div.page-header > table > tbody > tr > td:nth-child(2) > dl > dd:nth-child(6)").text
+            property_details["year_built"] = int(self.driver.find_element_by_css_selector(
+                "#tab_unitmix > table:nth-child(3) > tbody > tr:nth-child(1) > td:nth-child(4)").text.split(":")[1])
+            property_details["total_units"] = int(self.driver.find_element_by_css_selector(
+                "#tab_unitmix > table:nth-child(3) > tbody > tr:nth-child(1) > td:nth-child(1)").text.split(":")[1])
+            # property_details["total_square_feet"] = self.driver.find_element_by_css_selector("#property-name")
+
+            axp = AxioProperty(**property_details)
+            session.add(axp)
+            session.commit()
+
+
+    def get_property_data(self, id):
+        """
+        must call navigate_to_property_report prior to call
+        :param id:
+        :return:
+        """
+
+        occ = int(self.driver.find_element_by_css_selector("#tab_unitmix > table:nth-child(3) > tbody > tr:nth-child(1) > td:nth-child(2)").text.split(":")[1].replace("%", ""))/ 100
         tbl = self.driver.find_element_by_css_selector("#tab_unitmix > table:nth-child(5)")
-
         unit_report_list = []
         for row in tbl.find_elements_by_css_selector('tr'):
             tbl_width = len(row.text.split(" "))
             if tbl_width >= 14:
-                unit_report = {}
-                for i, cell in enumerate(row.find_elements_by_tag_name('td')):
-                    if i == 0:
-                        unit_report["Type"] = cell.text
-                    elif i == 1:
-                        unit_report["Area"] = cell.text
-                        pass
-                    elif i == 2:
-                        unit_report["Quantity"] = cell.text
-                        pass
-                    elif i == 5:
-                        unit_report["Average Market Rent"] = cell.text
-                    elif i == 9:
-                        unit_report["Average Effective"] = cell.text
-                if unit_report:
-                    unit_report_list.append(unit_report)
+                d_tbl = row.find_elements_by_tag_name('td')
+                if bool(d_tbl):
+                    unit_report = {}
+                    unit_report["property_id"] = id
+                    unit_report["date_added"] = str(date.today())
+                    for i, cell in enumerate(d_tbl):
+                        if i == 0:
+                            unit_report["type"] = cell.text.replace("/", "B/")
+                        elif i == 1:
+                            unit_report["area"] = cell.text.replace(",", "")
+                            pass
+                        elif i == 2:
+                            unit_report["quantity"] = cell.text.replace(",", "")
+                            pass
+                        elif i == 5:
+                            unit_report["avg_market_rent"] = cell.text.replace("$", "").replace(",", "")
+                        elif i == 9:
+                            unit_report["avg_effective_rent"] = cell.text.replace("$", "").replace(",", "")
 
-        return unit_report_list
+                    if bool(unit_report):
+                        unit_report_list.append(unit_report)
+
+        for unit in unit_report_list:
+            rc = RentComp(**unit)
+            session.add(rc)
+        session.commit()
 
 class Costar:
 
@@ -383,9 +432,10 @@ def main():
     axio = Axio()
     axio.mlg_axio_login()
     # axio.pull_national_data()
+    axio.navigate_to_property_report(51977)
+    axio.get_property_details(51977)
     axio.get_property_data(51977)
 
-    print
     # costar_mf = Costar("multifamily", "data/costar/multifamily_all.csv")
     # costar_mf.import_data()
     # fetch_cbsa_population()
