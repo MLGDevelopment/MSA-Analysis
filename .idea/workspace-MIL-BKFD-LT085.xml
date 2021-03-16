@@ -1,0 +1,586 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="fe85e597-0b3c-479c-a00b-c27d68ae0efa" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/BureauLaborStatistics.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CensusBureau.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Fred.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/census_bureau_report.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/combined_msa_data.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/_data discovery/CB - County Business Patterns/County Business Patterns.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/_data discovery/CB - County Business Patterns/metro-area-layout-2018.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/_data discovery/Carter/Cost of Living Index.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/_data discovery/Carter/LocalCrimeOneYearofData.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/_data discovery/Carter/NCVS_HOUSEHOLD_2014-2018.zip" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/_data discovery/Carter/NCVS_PERSONAL_2014-2018.zip" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/_data discovery/Carter/New Residential Construction.xls" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/_data discovery/Carter/Nik Data links (1).xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/_data discovery/Carter/cv16re.zip" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/_data discovery/Index.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/_target markets/MSA List with Counties - MAF.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/_target markets/MSA List with Counties Updated-CEO.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/_target markets/MSA List with Counties-LER.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/_target markets/consolidated.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/bls/bls_county_data.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/datasets/_archive/cb_permit_data.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/datasets/master permit data.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/mappings/BLSReportList.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/mappings/CensusReportList.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/mappings/_archived/CBSA_FIPS.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/mappings/_archived/CBSA_Master.xls" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/mappings/county-msa-csa-crosswalk.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/reports/MLG MSA Analysis 01.12.2021-130549.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/reports/MLG MSA Analysis 01.12.2021-131026.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/reports/MLG MSA Analysis 01.12.2021-131301.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/reports/MLG MSA Analysis 01.12.2021-131417.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/reports/MLG MSA Analysis 01.12.2021-132008.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/reports/MLG MSA Analysis 01.12.2021-132230.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/reports/MLG MSA Analysis 01.12.2021-160841.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/reports/MLG MSA Analysis 01.12.2021-171213.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/reports/MLG MSA Analysis 01.12.2021-171713.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/reports/MLG MSA Analysis 01.12.2021-172142.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/reports/MLG MSA Analysis 01.13.2021-135840.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/reports/MLG MSA Analysis 01.13.2021-141856.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/reports/MLG MSA Analysis 02.02.2021-155345.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/reports/MLG MSA Analysis 02.02.2021-160331.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/reports/MLG MSA Analysis 02.02.2021-162013.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/reports/MLG MSA Analysis 02.03.2021-103350.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/reports/MLG MSA Analysis 02.03.2021-184320.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/reports/MLG MSA Analysis 02.03.2021-185142.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/reports/MLG MSA Analysis 02.03.2021-190157.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/reports/MLG MSA Analysis 02.03.2021-190637.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/reports/MLG MSA Analysis 10.07.2020-105852.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/reports/MLG MSA Analysis 10.07.2020-132654.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/reports/MLG MSA Analysis 10.07.2020-135536.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/msa_analysis.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/msa_incomes.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/notebooks/.ipynb_checkpoints/Untitled-checkpoint.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/notebooks/Untitled.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sample code/acs1.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/MSA-Analysis.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/MSA-Analysis.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CBSA_Master.xls" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Costar.py" beforeDir="false" afterPath="$PROJECT_DIR$/Costar.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DataScraper.py" beforeDir="false" afterPath="$PROJECT_DIR$/DataScraper.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MLG MSA Analysis 07.09.2020-154250.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/acs1.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/mappings/CBSA.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/mappings/CBSA_FIPS.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/data/mappings/CBSA_FIPS.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/reports/Phase I Final/MLG MSA Analysis 07.29.2020 Final.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/data/reports/Phase I Final/MLG MSA Analysis 07.29.2020 Final.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/reports/graphs/states.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/reports/graphs/states/Alabama.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/reports/graphs/states/Alaska.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/reports/graphs/states/Arizona.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/reports/graphs/states/Arkansas.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/reports/graphs/states/California.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/reports/graphs/states/Colorado.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/reports/graphs/states/Connecticut.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/reports/graphs/states/Delaware.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/reports/graphs/states/Florida.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/reports/graphs/states/Georgia.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/reports/graphs/states/Hawaii.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/reports/graphs/states/Idaho.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/reports/graphs/states/Illinois.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/reports/graphs/states/Indiana.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/reports/graphs/states/Iowa.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/reports/graphs/states/Kansas.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/reports/graphs/states/Kentucky.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/reports/graphs/states/Louisiana.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/reports/graphs/states/Maine.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/reports/graphs/states/Maryland.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/reports/graphs/states/Massachusetts.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/reports/graphs/states/Michigan.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/reports/graphs/states/Minnesota.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/reports/graphs/states/Mississippi.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/reports/graphs/states/Missouri.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/reports/graphs/states/Montana.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/reports/graphs/states/Nebraska.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/reports/graphs/states/Nevada.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/reports/graphs/states/New Hampshire.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/reports/graphs/states/New Jersey.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/reports/graphs/states/New Mexico.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/reports/graphs/states/New York.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/reports/graphs/states/North Carolina.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/reports/graphs/states/North Dakota.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/reports/graphs/states/Ohio.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/reports/graphs/states/Oklahoma.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/reports/graphs/states/Oregon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/reports/graphs/states/Pennsylvania.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/reports/graphs/states/Rhode Island.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/reports/graphs/states/South Carolina.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/reports/graphs/states/South Dakota.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/reports/graphs/states/Tennessee.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/reports/graphs/states/Texas.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/reports/graphs/states/Utah.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/reports/graphs/states/Vermont.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/reports/graphs/states/Virginia.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/reports/graphs/states/Washington.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/reports/graphs/states/West Virginia.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/reports/graphs/states/Wisconsin.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/reports/graphs/states/Wyoming.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/reports/~$population.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/db_builder.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/msa_algos.py" beforeDir="false" afterPath="$PROJECT_DIR$/msa_algos.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pop_features.txt" beforeDir="false" afterPath="$PROJECT_DIR$/pop_features.txt" afterDir="false" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/CensusBureau.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1411">
+              <caret line="88" selection-start-line="88" selection-end-line="88" />
+              <folding>
+                <element signature="e#0#19#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/msa_analysis.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="2567">
+              <caret line="288" column="111" selection-start-line="288" selection-start-column="91" selection-end-line="288" selection-end-column="111" />
+              <folding>
+                <element signature="e#0#37#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Fred.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="500">
+              <caret line="56" column="59" selection-start-line="56" selection-start-column="43" selection-end-line="56" selection-end-column="59" />
+              <folding>
+                <element signature="e#0#19#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>cb_pop_data_master</find>
+      <find>filtered_cb_pop_data</find>
+    </findStrings>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/Fred.py" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectId" id="1ePqthW4S1Ur615ZV02ijSPVKe0" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="MLG-Data-Library" type="b2602c69:ProjectViewProjectNode" />
+              <item name="MLG-Data-Library" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="MLG-Data-Library" type="b2602c69:ProjectViewProjectNode" />
+              <item name="MLG-Data-Library" type="462c0819:PsiDirectoryNode" />
+              <item name="data" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="Scope" />
+    </panes>
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager" selected="Python.CensusBureau">
+    <configuration name="BureauLaborStatistics" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="MSA-Analysis" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/BureauLaborStatistics.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="CensusBureau" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="MSA-Analysis" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/CensusBureau.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="DataScraper" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="MSA-Analysis" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/DataScraper.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Fred" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="MSA-Analysis" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="C:\Users\nburmeister\Documents\_Development\MLG-Data-Library\Fred.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="msa_analysis" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="MSA-Analysis" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/msa_analysis.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Python.BureauLaborStatistics" />
+      <item itemvalue="Python.CensusBureau" />
+      <item itemvalue="Python.DataScraper" />
+      <item itemvalue="Python.Fred" />
+      <item itemvalue="Python.msa_analysis" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.CensusBureau" />
+        <item itemvalue="Python.BureauLaborStatistics" />
+        <item itemvalue="Python.msa_analysis" />
+        <item itemvalue="Python.DataScraper" />
+        <item itemvalue="Python.Fred" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="fe85e597-0b3c-479c-a00b-c27d68ae0efa" name="Default Changelist" comment="" />
+      <created>1594233791864</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1594233791864</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-8" y="-8" width="2576" height="1056" extended-state="6" />
+    <editor active="true" />
+    <layout>
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.13278171" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.31019524" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Version Control" order="7" />
+      <window_info anchor="bottom" id="Terminal" order="8" />
+      <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
+      <window_info anchor="bottom" id="Python Console" order="10" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+    </layout>
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="-1495" y="139" width="1097" height="751" key="#xdebugger.evaluate" timestamp="1612481245178">
+      <screen x="-1920" y="0" width="1920" height="1019" />
+    </state>
+    <state x="-1829" y="219" width="1471" height="800" key="#xdebugger.evaluate/-3840.0.1536.815/0.0.1920.1019/-1920.0.1920.1019@-1920.0.1920.1019" timestamp="1612385711806" />
+    <state x="-1495" y="139" width="1097" height="751" key="#xdebugger.evaluate/-3840.0.1536.815/0.0.1920.1019/-1920.0.1920.1019@0.0.1920.1019" timestamp="1612481245178" />
+    <state x="364" y="211" width="938" height="591" key="#xdebugger.evaluate/0.0.1536.802@0.0.1536.802" timestamp="1610421506351" />
+    <state x="636" y="652" width="1177" height="367" key="#xdebugger.evaluate/0.0.2560.1019@0.0.2560.1019" timestamp="1612308943490" />
+    <state x="740" y="265" key="FileChooserDialogImpl" timestamp="1611001423865">
+      <screen x="0" y="0" width="1920" height="1019" />
+    </state>
+    <state x="740" y="265" key="FileChooserDialogImpl/-3840.0.1536.815/0.0.1920.1019/-1920.0.1920.1019@0.0.1920.1019" timestamp="1611001423865" />
+    <state width="1515" height="211" key="GridCell.Tab.0.bottom" timestamp="1612533931773">
+      <screen x="0" y="0" width="1536" height="802" />
+    </state>
+    <state width="1899" height="198" key="GridCell.Tab.0.bottom/-3840.0.1536.815/0.0.1920.1019/-1920.0.1920.1019@-1920.0.1920.1019" timestamp="1612385369507" />
+    <state width="1899" height="211" key="GridCell.Tab.0.bottom/-3840.0.1536.815/0.0.1920.1019/-1920.0.1920.1019@0.0.1920.1019" timestamp="1612481211581" />
+    <state width="1515" height="211" key="GridCell.Tab.0.bottom/0.0.1536.802@0.0.1536.802" timestamp="1612533931773" />
+    <state width="2539" height="131" key="GridCell.Tab.0.bottom/0.0.2560.1019@0.0.2560.1019" timestamp="1612309053500" />
+    <state width="1515" height="211" key="GridCell.Tab.0.center" timestamp="1612533931773">
+      <screen x="0" y="0" width="1536" height="802" />
+    </state>
+    <state width="1899" height="198" key="GridCell.Tab.0.center/-3840.0.1536.815/0.0.1920.1019/-1920.0.1920.1019@-1920.0.1920.1019" timestamp="1612385369507" />
+    <state width="1899" height="211" key="GridCell.Tab.0.center/-3840.0.1536.815/0.0.1920.1019/-1920.0.1920.1019@0.0.1920.1019" timestamp="1612481211581" />
+    <state width="1515" height="211" key="GridCell.Tab.0.center/0.0.1536.802@0.0.1536.802" timestamp="1612533931773" />
+    <state width="2539" height="131" key="GridCell.Tab.0.center/0.0.2560.1019@0.0.2560.1019" timestamp="1612309053499" />
+    <state width="1515" height="211" key="GridCell.Tab.0.left" timestamp="1612533931773">
+      <screen x="0" y="0" width="1536" height="802" />
+    </state>
+    <state width="1899" height="198" key="GridCell.Tab.0.left/-3840.0.1536.815/0.0.1920.1019/-1920.0.1920.1019@-1920.0.1920.1019" timestamp="1612385369507" />
+    <state width="1899" height="211" key="GridCell.Tab.0.left/-3840.0.1536.815/0.0.1920.1019/-1920.0.1920.1019@0.0.1920.1019" timestamp="1612481211580" />
+    <state width="1515" height="211" key="GridCell.Tab.0.left/0.0.1536.802@0.0.1536.802" timestamp="1612533931773" />
+    <state width="2539" height="131" key="GridCell.Tab.0.left/0.0.2560.1019@0.0.2560.1019" timestamp="1612309053499" />
+    <state width="1515" height="211" key="GridCell.Tab.0.right" timestamp="1612533931773">
+      <screen x="0" y="0" width="1536" height="802" />
+    </state>
+    <state width="1899" height="198" key="GridCell.Tab.0.right/-3840.0.1536.815/0.0.1920.1019/-1920.0.1920.1019@-1920.0.1920.1019" timestamp="1612385369507" />
+    <state width="1899" height="211" key="GridCell.Tab.0.right/-3840.0.1536.815/0.0.1920.1019/-1920.0.1920.1019@0.0.1920.1019" timestamp="1612481211581" />
+    <state width="1515" height="211" key="GridCell.Tab.0.right/0.0.1536.802@0.0.1536.802" timestamp="1612533931773" />
+    <state width="2539" height="131" key="GridCell.Tab.0.right/0.0.2560.1019@0.0.2560.1019" timestamp="1612309053500" />
+    <state width="1515" height="211" key="GridCell.Tab.1.bottom" timestamp="1612533931773">
+      <screen x="0" y="0" width="1536" height="802" />
+    </state>
+    <state width="1899" height="198" key="GridCell.Tab.1.bottom/-3840.0.1536.815/0.0.1920.1019/-1920.0.1920.1019@-1920.0.1920.1019" timestamp="1612385428645" />
+    <state width="1899" height="211" key="GridCell.Tab.1.bottom/-3840.0.1536.815/0.0.1920.1019/-1920.0.1920.1019@0.0.1920.1019" timestamp="1612481218331" />
+    <state width="1515" height="211" key="GridCell.Tab.1.bottom/0.0.1536.802@0.0.1536.802" timestamp="1612533931773" />
+    <state width="2539" height="131" key="GridCell.Tab.1.bottom/0.0.2560.1019@0.0.2560.1019" timestamp="1612309073665" />
+    <state width="1515" height="211" key="GridCell.Tab.1.center" timestamp="1612533931773">
+      <screen x="0" y="0" width="1536" height="802" />
+    </state>
+    <state width="1899" height="198" key="GridCell.Tab.1.center/-3840.0.1536.815/0.0.1920.1019/-1920.0.1920.1019@-1920.0.1920.1019" timestamp="1612385428645" />
+    <state width="1899" height="211" key="GridCell.Tab.1.center/-3840.0.1536.815/0.0.1920.1019/-1920.0.1920.1019@0.0.1920.1019" timestamp="1612481218331" />
+    <state width="1515" height="211" key="GridCell.Tab.1.center/0.0.1536.802@0.0.1536.802" timestamp="1612533931773" />
+    <state width="2539" height="131" key="GridCell.Tab.1.center/0.0.2560.1019@0.0.2560.1019" timestamp="1612309073665" />
+    <state width="1515" height="211" key="GridCell.Tab.1.left" timestamp="1612533931773">
+      <screen x="0" y="0" width="1536" height="802" />
+    </state>
+    <state width="1899" height="198" key="GridCell.Tab.1.left/-3840.0.1536.815/0.0.1920.1019/-1920.0.1920.1019@-1920.0.1920.1019" timestamp="1612385428645" />
+    <state width="1899" height="211" key="GridCell.Tab.1.left/-3840.0.1536.815/0.0.1920.1019/-1920.0.1920.1019@0.0.1920.1019" timestamp="1612481218330" />
+    <state width="1515" height="211" key="GridCell.Tab.1.left/0.0.1536.802@0.0.1536.802" timestamp="1612533931773" />
+    <state width="2539" height="131" key="GridCell.Tab.1.left/0.0.2560.1019@0.0.2560.1019" timestamp="1612309073665" />
+    <state width="1515" height="211" key="GridCell.Tab.1.right" timestamp="1612533931773">
+      <screen x="0" y="0" width="1536" height="802" />
+    </state>
+    <state width="1899" height="198" key="GridCell.Tab.1.right/-3840.0.1536.815/0.0.1920.1019/-1920.0.1920.1019@-1920.0.1920.1019" timestamp="1612385428645" />
+    <state width="1899" height="211" key="GridCell.Tab.1.right/-3840.0.1536.815/0.0.1920.1019/-1920.0.1920.1019@0.0.1920.1019" timestamp="1612481218331" />
+    <state width="1515" height="211" key="GridCell.Tab.1.right/0.0.1536.802@0.0.1536.802" timestamp="1612533931773" />
+    <state width="2539" height="131" key="GridCell.Tab.1.right/0.0.2560.1019@0.0.2560.1019" timestamp="1612309073665" />
+    <state width="969" height="518" key="XDebugger.FullValuePopup" timestamp="1612480448409">
+      <screen x="0" y="0" width="1920" height="1019" />
+    </state>
+    <state width="969" height="518" key="XDebugger.FullValuePopup/-3840.0.1536.815/0.0.1920.1019/-1920.0.1920.1019@-1920.0.1920.1019" timestamp="1610466075724" />
+    <state width="969" height="518" key="XDebugger.FullValuePopup/-3840.0.1536.815/0.0.1920.1019/-1920.0.1920.1019@0.0.1920.1019" timestamp="1612480448409" />
+    <state width="1292" height="518" key="XDebugger.FullValuePopup/0.0.2560.1019@0.0.2560.1019" timestamp="1612308118988" />
+    <state x="857" y="344" key="com.intellij.ide.util.TipDialog" timestamp="1612561713838">
+      <screen x="0" y="0" width="2560" height="1019" />
+    </state>
+    <state x="643" y="344" key="com.intellij.ide.util.TipDialog/-3840.0.1536.815/0.0.1920.1019/-1920.0.1920.1019@0.0.1920.1019" timestamp="1612447232289" />
+    <state x="857" y="344" key="com.intellij.ide.util.TipDialog/0.0.2560.1019@0.0.2560.1019" timestamp="1612561713838" />
+    <state x="1089" y="427" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1612154530404">
+      <screen x="0" y="0" width="2560" height="1019" />
+    </state>
+    <state x="1089" y="427" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.2560.1019@0.0.2560.1019" timestamp="1612154530404" />
+    <state x="-792" y="56" width="737" height="909" key="find.popup" timestamp="1610489192436">
+      <screen x="-1920" y="0" width="1920" height="1019" />
+    </state>
+    <state x="-792" y="56" width="737" height="909" key="find.popup/-3840.0.1536.815/0.0.1920.1019/-1920.0.1920.1019@-1920.0.1920.1019" timestamp="1610489192436" />
+    <state x="-1318" y="182" width="699" height="638" key="search.everywhere.popup" timestamp="1610469363867">
+      <screen x="-1920" y="0" width="1920" height="1019" />
+    </state>
+    <state x="-1318" y="182" width="699" height="638" key="search.everywhere.popup/-3840.0.1536.815/0.0.1920.1019/-1920.0.1920.1019@-1920.0.1920.1019" timestamp="1610469363867" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$USER_HOME$/AppData/Local/Temp/Temp1_qcew_python_3x_example.zip/qcew_python_3x_example.py</url>
+          <line>104</line>
+          <option name="timeStamp" value="25" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Fred.py</url>
+          <line>126</line>
+          <option name="timeStamp" value="31" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Fred.py</url>
+          <line>121</line>
+          <option name="timeStamp" value="38" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Fred.py</url>
+          <line>120</line>
+          <option name="timeStamp" value="49" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/msa_analysis.py</url>
+          <line>140</line>
+          <option name="timeStamp" value="165" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/BureauLaborStatistics.py</url>
+          <line>195</line>
+          <option name="timeStamp" value="175" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/CensusBureau.py</url>
+          <line>133</line>
+          <option name="timeStamp" value="176" />
+        </line-breakpoint>
+      </breakpoints>
+      <default-breakpoints>
+        <breakpoint type="python-exception">
+          <properties notifyOnTerminate="true" exception="BaseException">
+            <option name="notifyOnTerminate" value="true" />
+          </properties>
+        </breakpoint>
+      </default-breakpoints>
+    </breakpoint-manager>
+    <watches-manager>
+      <configuration name="PythonConfigurationType">
+        <watch expression="d[10180]" language="Python" />
+      </configuration>
+    </watches-manager>
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/CensusBureau.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1411">
+          <caret line="88" selection-start-line="88" selection-end-line="88" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/msa_analysis.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2567">
+          <caret line="288" column="111" selection-start-line="288" selection-start-column="91" selection-end-line="288" selection-end-column="111" />
+          <folding>
+            <element signature="e#0#37#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Fred.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="500">
+          <caret line="56" column="59" selection-start-line="56" selection-start-column="43" selection-end-line="56" selection-end-column="59" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>

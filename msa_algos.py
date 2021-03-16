@@ -1,11 +1,19 @@
-from DataScraper import CensusBureau
+from CensusBureau import CensusBureau
 from DataScraper import Mappings
+from DataScraper import BLS
 import pandas as pd
 import os
 from datetime import datetime
-from Costar import CostarMF
+from Costar import CostarMultifamily
 import numpy as np
+from collections import defaultdict
+
 mappings = Mappings()
+
+lvl_map = {"1": "Federal Government",
+           "2": "State Government",
+           "3": "Local Government",
+           "5": "Private", }
 
 
 def write_multiple_dfs(writer, df_list, sheets, spaces):
@@ -17,21 +25,50 @@ def write_multiple_dfs(writer, df_list, sheets, spaces):
     writer.save()
 
 
+mlg_msas = [10740,
+            12060,
+            16980,
+            17140,
+            18140,
+            19100,
+            19780,
+            23540,
+            26420,
+            28140,
+            33340,
+            33460,
+            36420,
+            37980,
+            38060,
+            38300,
+            45300,
+            46140,
+            ]
+
+
 def replace_ranks(df):
-    # REPLACE WITH [-5, 5]
-    df = df.replace(0, -5)
-    df = df.replace(1, -4)
-    df = df.replace(2, -3)
-    df = df.replace(3, -2)
-    df = df.replace(4, -1)
-    df = df.replace(5, 1)
-    df = df.replace(6, 2)
-    df = df.replace(7, 3)
-    df = df.replace(8, 4)
-    df = df.replace(9, 5)
+    # function for inverting rankings
+    df = df.replace(0, 9)
+    df = df.replace(1, 8)
+    df = df.replace(2, 7)
+    df = df.replace(3, 6)
+    df = df.replace(4, 5)
+    df = df.replace(5, 4)
+    df = df.replace(6, 3)
+    df = df.replace(7, 2)
+    df = df.replace(8, 1)
+    df = df.replace(9, 0)
     return df
 
-def analyze_population(cb, costar_mf, export, plot):
+
+def relative_analysis():
+    """
+
+    :return:
+    """
+
+
+def analyze_population(cb, costar_mf, bls, export, plot):
     """
     Algorithm for analyzing population data in the US
 
@@ -42,8 +79,51 @@ def analyze_population(cb, costar_mf, export, plot):
     :return:
     """
 
-    # HARDCODED POPULATION THRESHOLD - SET TO 100,000
-    POPULATION_THRESHOLD = 100000
+    # build cbsa_msa
+    # cbsa_ssa = bls.cbsa_ssa.iloc[:, [2, 3, 4]].sort_values("CBSA").values.tolist()
+    # d = defaultdict(list)
+    # for i in cbsa_ssa:
+    #     for j in i[:2]:
+    #         d[i[2]].append(str(j))
+    #
+    # columns_names = bls.df.iloc[:, 8:].columns
+    # bls.df[columns_names] = bls.df.iloc[:, 8:].apply(pd.to_numeric, errors='ignore')
+    # # filter on aggregation level code and industry code
+    # all_ind_county_bls_df = bls.df[bls.df["industry_code"] == '10']
+    # all_ind_county_bls_df = all_ind_county_bls_df[all_ind_county_bls_df["agglvl_code"] == '70']
+    #
+    # # aggregate the county level all industry cbsa data
+    # cbsa_demo_data = pd.pivot_table(all_ind_county_bls_df,
+    #                                 index=["area_fips", "year"],
+    #                                 values=bls.df.columns[8:15],
+    #                                 aggfunc=np.mean)
+    # cbsa_demo_data = cbsa_demo_data.unstack()
+    # master = pd.DataFrame(columns=cbsa_demo_data.columns.map('-'.join).str.strip('-'))
+    # for k in d.keys():
+    #     group_on = d[k]
+    #     t = cbsa_demo_data[cbsa_demo_data.index.isin(group_on)].sum()
+    #     df_T = pd.DataFrame(data=t).T
+    #     cols = df_T.columns.map('-'.join).str.strip('-')
+    #     df_T.columns = cols
+    #     df_T["CBSA"] = int(k)
+    #     df_T["FIPS/SSA List"] = str(group_on)
+    #     master = master.append(df_T)
+    # master = master.set_index("CBSA", drop=True)
+    # master.index = master.index.map(int)
+
+    # INDUSTRY REPORT
+    multi_industry_bls = bls.df[bls.df["industry_code"] != '10']
+    # multi_industry_bls_counties_only = multi_industry_bls[multi_industry_bls["agglvl_code"] == '72'].sort_values(
+    # "annual_avg_emplvl", ascending=False)
+    # multi_industry_bls["industry_code"] = multi_industry_bls["industry_code"].map(bls.cew_codes_mapping)
+    multi_industry_bls = multi_industry_bls[~multi_industry_bls["agglvl_code"].isnull()]
+    multi_industry_bls["agglvl_code"] = multi_industry_bls["agglvl_code"].astype(int)
+    multi_industry_bls = multi_industry_bls.replace({'own_code': lvl_map})  # map ownership codes
+    # ssa_cbsa_name_map = dict(zip(bls.cbsa_ssa["FIPS"].astype(str), bls.cbsa_ssa["CBSA NAME"]))
+    # multi_industry_bls["CBSA Name"] = multi_industry_bls["area_fips"].map(ssa_cbsa_name_map)
+
+    # HARDCODED POPULATION THRESHOLD - SET TO 200,000
+    POPULATION_THRESHOLD = 0
     THRESHOLD_TOP = .10
     THRESHOLD_BOTTOM = .10
 
@@ -51,19 +131,31 @@ def analyze_population(cb, costar_mf, export, plot):
     df = cb.fetch_population_csv()
     df = df[df["POPESTIMATE2019"] >= POPULATION_THRESHOLD]
     _2019_MEDIAN = df["POPESTIMATE2019"].median()
-    # pd.qcut(df["POPESTIMATE2019"], 10, labels=False)
-    CBSA_NAMES = df[["CBSA", "NAME"]][
-        (df["LSAD"] == "Metropolitan Statistical Area") | (df["LSAD"] == "Micropolitan Statistical Area")].set_index(
-        "CBSA")
-    mappings.cbsa_fips_df = mappings.cbsa_fips_df[["cbsacode", "fipsstatecode"]].drop_duplicates()
+
+    s1 = set(df["COMBINED_COUNTY_ID"].values.tolist())
+    s2 = set(multi_industry_bls["area_fips"].values.tolist())
+    remove = s2 - s1
+    multi_industry_bls = multi_industry_bls[~multi_industry_bls["area_fips"].isin(remove) & ~pd.isnull(multi_industry_bls["area_fips"])]
+    df.columns = [i.replace("_", "") for i in df.columns.tolist()]  # only use this on County level data, not CBSA
+    df = df.set_index("COMBINEDCOUNTYID")
+
+    pd.qcut(df["POPESTIMATE2019"], 10, labels=False)
+    multi_industry_bls["MSA Title"] = multi_industry_bls["area_fips"].map(mappings.cbsa_fips_df["MSA Title"])
+    multi_industry_bls = multi_industry_bls.set_index(["area_fips", "year"])
+
+    # CBSA_NAMES = df[["CBSA", "NAME"]][(df["LSAD"] == "Metropolitan Statistical Area") | (df["LSAD"] ==
+    # "Micropolitan Statistical Area")].set_index("CBSA")
+
+    # mappings.cbsa_fips_df = mappings.cbsa_fips_df[["cbsacode", "fipsstatecode"]].drop_duplicates()
     # AGGREGATE ON CBSA CODE
-    df = df[(df["LSAD"] == "Metropolitan Statistical Area") | (df["LSAD"] == "Micropolitan Statistical Area")]
-    df = df.groupby("CBSA").sum()
+    # df = df[(df["LSAD"] == "Metropolitan Statistical Area") | (df["LSAD"] == "Micropolitan Statistical Area")]
+    # df = df.groupby("CBSA").sum()
 
     """
     START RELATIVE ANALYSIS
     """
 
+    # df = pd.merge(df, master, left_index=True, right_index=True)
     df_relative_analysis = pd.DataFrame(index=df.index)
 
     # COMPUTE ANNUAL PERCENT CHANGE
@@ -210,6 +302,61 @@ def analyze_population(cb, costar_mf, export, plot):
     df_relative_analysis["PER_INTERNATIONAL_MIG_2018"] = df["INTERNATIONALMIG2018"] / df["NETMIG2017"] - 1
     df_relative_analysis["PER_INTERNATIONAL_MIG_2019"] = df["INTERNATIONALMIG2019"] / df["NETMIG2018"] - 1
 
+
+    # legacy cbsa code
+    # PERCENT CHANGE AVG ANNUAL EMP LVL CHANGE
+    # df_relative_analysis["PER_AVG_ANNUAL_EMP_LVL_2016"] = df["annual_avg_emplvl-2016"] / df[
+    #     "annual_avg_emplvl-2015"] - 1
+    # df_relative_analysis["PER_AVG_ANNUAL_EMP_LVL_2017"] = df["annual_avg_emplvl-2017"] / df[
+    #     "annual_avg_emplvl-2016"] - 1
+    # df_relative_analysis["PER_AVG_ANNUAL_EMP_LVL_2018"] = df["annual_avg_emplvl-2018"] / df[
+    #     "annual_avg_emplvl-2017"] - 1
+    # df_relative_analysis["AVG_ANNUAL_EMP_LVL_3_YEAR_%CHG"] = df["annual_avg_emplvl-2018"] / df[
+    #     "annual_avg_emplvl-2015"] - 1
+    #
+    # # PERCENT CHANGE AVG WEEKLY WAGE
+    # df_relative_analysis["PER_AVG_WEEKLY_WAGE_2016"] = df["annual_avg_wkly_wage-2016"] / df[
+    #     "annual_avg_wkly_wage-2015"] - 1
+    # df_relative_analysis["PER_AVG_WEEKLY_WAGE_2017"] = df["annual_avg_wkly_wage-2017"] / df[
+    #     "annual_avg_wkly_wage-2016"] - 1
+    # df_relative_analysis["PER_AVG_WEEKLY_WAGE_2018"] = df["annual_avg_wkly_wage-2018"] / df[
+    #     "annual_avg_wkly_wage-2017"] - 1
+    # df_relative_analysis["AVG_WEEKLY_WAGE_3_YEAR_%CHG"] = df["annual_avg_wkly_wage-2018"] / df[
+    #     "annual_avg_wkly_wage-2015"] - 1
+    #
+    # # PERCENT CHANGE ANNUAL CONTRIBUTIONS
+    # df_relative_analysis["PER_AVG_ANNUAL_CONTRIBUTIONS_2016"] = df["annual_contributions-2016"] / df[
+    #     "annual_contributions-2015"] - 1
+    # df_relative_analysis["PER_AVG_ANNUAL_CONTRIBUTIONS_2017"] = df["annual_contributions-2017"] / df[
+    #     "annual_contributions-2016"] - 1
+    # df_relative_analysis["PER_AVG_ANNUAL_CONTRIBUTIONS_2018"] = df["annual_contributions-2018"] / df[
+    #     "annual_contributions-2017"] - 1
+    # df_relative_analysis["AVG_ANNUAL_CONTRIBUTIONS_3_YEAR_%CHG"] = df["annual_contributions-2018"] / df[
+    #     "annual_contributions-2015"] - 1
+    #
+    # # PERCENT CHANGE AVG ANNUAL PAY
+    # df_relative_analysis["PER_AVG_ANNUAL_WAGE_2016"] = df["avg_annual_pay-2016"] / df["avg_annual_pay-2015"] - 1
+    # df_relative_analysis["PER_AVG_ANNUAL_WAGE_2017"] = df["avg_annual_pay-2017"] / df["avg_annual_pay-2016"] - 1
+    # df_relative_analysis["PER_AVG_ANNUAL_WAGE_2018"] = df["avg_annual_pay-2018"] / df["avg_annual_pay-2017"] - 1
+    # df_relative_analysis["AVG_ANNUAL_WAGE_3_YEAR_%CHG"] = df["avg_annual_pay-2018"] / df["avg_annual_pay-2015"] - 1
+    #
+    # # PERCENT CHANGE TAXABLE ANNUAL WAGES
+    # df_relative_analysis["PER_TAX_ANNUAL_WAGES_2016"] = df["taxable_annual_wages-2016"] / df[
+    #     "taxable_annual_wages-2015"] - 1
+    # df_relative_analysis["PER_TAX_ANNUAL_WAGES_2017"] = df["taxable_annual_wages-2017"] / df[
+    #     "taxable_annual_wages-2016"] - 1
+    # df_relative_analysis["PER_TAX_ANNUAL_WAGES_2018"] = df["taxable_annual_wages-2018"] / df[
+    #     "taxable_annual_wages-2017"] - 1
+    # df_relative_analysis["TAX_ANNUAL_WAGES_3_YEAR_%CHG"] = df["taxable_annual_wages-2018"] / df[
+    #     "taxable_annual_wages-2015"] - 1
+    #
+    # # TOTAL ANNUAL WAGES
+    # df_relative_analysis["PER_ANNUAL_WAGE_2016"] = df["total_annual_wages-2016"] / df["total_annual_wages-2015"] - 1
+    # df_relative_analysis["PER_ANNUAL_WAGE_2017"] = df["total_annual_wages-2017"] / df["total_annual_wages-2016"] - 1
+    # df_relative_analysis["PER_ANNUAL_WAGE_2018"] = df["total_annual_wages-2018"] / df["total_annual_wages-2017"] - 1
+    # df_relative_analysis["TOTAL_ANNUAL_WAGE_3_YEAR_%CHG"] = df["total_annual_wages-2018"] / df["total_annual_wages-2015"] - 1
+
+
     """
     START ABSOLUTE ANALYSIS
     """
@@ -255,13 +402,11 @@ def analyze_population(cb, costar_mf, export, plot):
     df_abs_analysis["ALL_YEAR_ABS_INTERNATIONAL"] = df[
         df.columns.intersection(_ALL_YEAR_INTERNATIONAL_MIGRATION_SLICE)].sum(axis=1)
 
-    df_abs_analysis["FIPS"] = df_abs_analysis.index.map(dict(mappings.cbsa_fips_df.values))
-    df_abs_analysis["STATE"] = df_abs_analysis["FIPS"].map(mappings.states_df["state"])
-
-    df_relative_analysis["FIPS"] = df_abs_analysis.index.map(dict(mappings.cbsa_fips_df.values))
-    df_relative_analysis["STATE"] = df_abs_analysis["FIPS"].map(mappings.states_df["state"])
-
-    df_abs_states = df_abs_analysis.groupby("STATE").sum()
+    df_abs_analysis["County Name"] = mappings.cbsa_fips_df["County Title"]
+    df_abs_analysis["State"] = mappings.cbsa_fips_df["State"]
+    df_relative_analysis["County Name"] = mappings.cbsa_fips_df["County Title"]
+    df_relative_analysis["State"] = mappings.cbsa_fips_df["State"]
+    df_abs_states = df_abs_analysis.groupby("State").sum()
 
     # ASSIGN RANKINGS
     # DO RELATIVE FIRST
@@ -274,10 +419,14 @@ def analyze_population(cb, costar_mf, export, plot):
         col_name = col + "_RANK"
         df_all_rankings[col_name] = pd.qcut(df_abs_analysis[col], 10, labels=False)
 
-    df_all_rankings["CBSA NAME"] = CBSA_NAMES
-
+    # BUILD CONSOLIDATED RANKINGS BASED ON RELATIVE CHANGES IN DATA
+    df_all_rankings["Assigned CBSA"] = mappings.cbsa_fips_df["MSA Title"]
     df_consolidated_rankings = pd.DataFrame(index=df.index)
-    df_consolidated_rankings["CBSA NAME"] = CBSA_NAMES
+    df_consolidated_rankings["Assigned CBSA"] = mappings.cbsa_fips_df["MSA Title"]
+
+    df_relative_analysis["Assigned CBSA"] = mappings.cbsa_fips_df["MSA Title"]
+    df_abs_states["Assigned CBSA"] = mappings.cbsa_fips_df["MSA Title"]
+    df_abs_analysis["Assigned CBSA"] = mappings.cbsa_fips_df["MSA Title"]
 
     df_consolidated_rankings["2019 Pop Estimate"] = df["POPESTIMATE2019"]
     df_consolidated_rankings["3 Year Growth Rank"] = df_all_rankings["_3_YEAR_POPULATION_RATE_CHANGE_RANK"]
@@ -296,49 +445,67 @@ def analyze_population(cb, costar_mf, export, plot):
     sum_list = ["3 Year Int. Growth Rank", "5 Year Int. Growth Rank", "10 Year Int. Growth Rank"]
     df_consolidated_rankings["Total Int. Rank"] = df_consolidated_rankings[sum_list].sum(axis=1)
 
-    t_cbsas = list(costar_mf.cbsa_grouped_dfs.keys())
-    median_income_map = {}
-    for cbsa in t_cbsas:
-        _temp_df = costar_mf.cbsa_grouped_dfs[cbsa]
-        ten_yr_pop_growth = df_relative_analysis[df_relative_analysis.index == cbsa].iloc[:, 0:9]
-        t_df = ten_yr_pop_growth.rename(
-            columns={x: y for x, y in zip(df_relative_analysis.columns.tolist(), list(range(2011, 2020)))}).transpose()
-        if t_df.values.size != 0:
-            population_growth_rent_growth_corr = np.corrcoef(t_df.values.reshape(9, ), _temp_df[(_temp_df.index > 2010) & (_temp_df.index <= 2019)][
-                "Market Effective Rent Growth 12 Mo"].values)[1][0]
-        else:
-            population_growth_rent_growth_corr = ""
+    # sum_list = ["3 Year Avg Weekly Wage Growth Rank",
+    #             "3 Year Avg Weekly Wage Growth Rank",
+    #             "3 Year Avg Annual Contributions Growth Rank",
+    #             "3 Year Avg Annual Wage Growth Rank",
+    #             "3 Year Avg Taxable Annual Wages Growth Rank",
+    #             "3 Year Total Annual Wage Growth Rank",
+    #             ]
+    # df_consolidated_rankings["3 Year Avg Weekly Wage Growth Rank"] = df_all_rankings["AVG_ANNUAL_EMP_LVL_3_YEAR_%CHG_RANK"]
+    # df_consolidated_rankings["3 Year Avg Weekly Wage Growth Rank"] = df_all_rankings["AVG_WEEKLY_WAGE_3_YEAR_%CHG_RANK"]
+    # df_consolidated_rankings["3 Year Avg Annual Contributions Growth Rank"] = df_all_rankings["AVG_ANNUAL_CONTRIBUTIONS_3_YEAR_%CHG_RANK"]
+    # df_consolidated_rankings["3 Year Avg Annual Wage Growth Rank"] = df_all_rankings["AVG_ANNUAL_WAGE_3_YEAR_%CHG_RANK"]
+    # # tax growth is potentially bad, invert ranking
+    # df_consolidated_rankings["3 Year Avg Taxable Annual Wages Growth Rank"] = replace_ranks(df_all_rankings["TAX_ANNUAL_WAGES_3_YEAR_%CHG_RANK"])
+    # df_consolidated_rankings["3 Year Total Annual Wage Growth Rank"] = df_all_rankings["TOTAL_ANNUAL_WAGE_3_YEAR_%CHG_RANK"]
+    # df_consolidated_rankings["Total 3 Year BLS Growth Rank"] = df_consolidated_rankings[sum_list].sum(axis=1)
+    #
+    # df_consolidated_rankings["2018 Avg Annual Pay"] = df["avg_annual_pay-2018"]
+    # df_consolidated_rankings["2018 BLS Avg Emp Lvl"] = df["annual_avg_emplvl-2018"]
 
-        # MEDIAN HHI CORRELATION WITH RENT GROWTH
-        median_hhi_rent_growth_corr = _temp_df[(_temp_df.index > 2010) & (_temp_df.index <= 2019)]["Median Household Income"].corr(
-            _temp_df[(_temp_df.index > 2010) & (_temp_df.index <= 2019)]["Market Effective Rent Growth 12 Mo"])
 
-        cap_rate_rent_growth_corr = _temp_df[(_temp_df.index > 2010) & (_temp_df.index <= 2019)]["Cap Rate"].corr(
-            _temp_df[(_temp_df.index > 2010) & (_temp_df.index <= 2019)]["Market Effective Rent Growth 12 Mo"])
-
-        _2019_Median_HHI = _temp_df["Median Household Income"].filter(like="2019").values[0]
-        _2016_Median_HHI = _temp_df["Median Household Income"].filter(like="2016").values[0]
-        _2014_Median_HHI = _temp_df["Median Household Income"].filter(like="2014").values[0]
-        _2010_Median_HHI = _temp_df["Median Household Income"].filter(like="2009").values[0]
-        median_income_map[cbsa] = {"2019 Median HHI": _2019_Median_HHI,
-                                   "2016 Median HHI": _2016_Median_HHI,
-                                   "2014 Median HHI": _2014_Median_HHI,
-                                   "2010 Median HHI": _2010_Median_HHI,
-                                   "3 Year Median Income Change": _2019_Median_HHI / _2016_Median_HHI - 1 or "",
-                                   "5 Year Median Income Change": _2019_Median_HHI / _2014_Median_HHI - 1 or "",
-                                   "10 Year Median Income Change": _2019_Median_HHI / _2010_Median_HHI - 1 or "",
-                                   "Population Growth/Rent Growth Correlation": population_growth_rent_growth_corr or "",
-                                   "Medina HHI/Rent Growth Correlation": median_hhi_rent_growth_corr or "",
-                                   "Market Cap Rate vs Rent Growth Correlation": cap_rate_rent_growth_corr or "",
-                                   }
-
-    median_inc_map_df = pd.DataFrame.from_dict(median_income_map, orient='index')
-    df_consolidated_rankings = df_consolidated_rankings.join(median_inc_map_df)
+    # cost stuff
+    # t_cbsas = list(costar_mf.cbsa_grouped_dfs.keys())
+    # median_income_map = {}
+    # for cbsa in t_cbsas:
+    #     _temp_df = costar_mf.cbsa_grouped_dfs[cbsa]
+    #     ten_yr_pop_growth = df_relative_analysis[df_relative_analysis.index == cbsa].iloc[:, 0:9]
+    #     t_df = ten_yr_pop_growth.rename(
+    #         columns={x: y for x, y in zip(df_relative_analysis.columns.tolist(), list(range(2011, 2020)))}).transpose()
+    #     if t_df.values.size != 0:
+    #         population_growth_rent_growth_corr = np.corrcoef(t_df.values.reshape(9, ), _temp_df[(_temp_df.index > 2010) & (_temp_df.index <= 2019)][
+    #             "Market Effective Rent Growth 12 Mo"].values)[1][0]
+    #     else:
+    #         population_growth_rent_growth_corr = ""
+    #
+    #     # MEDIAN HHI CORRELATION WITH RENT GROWTH
+    #     median_hhi_rent_growth_corr = _temp_df[(_temp_df.index > 2010) & (_temp_df.index <= 2019)]["Median Household Income"].corr(
+    #         _temp_df[(_temp_df.index > 2010) & (_temp_df.index <= 2019)]["Market Effective Rent Growth 12 Mo"])
+    #
+    #     cap_rate_rent_growth_corr = _temp_df[(_temp_df.index > 2010) & (_temp_df.index <= 2019)]["Cap Rate"].corr(
+    #         _temp_df[(_temp_df.index > 2010) & (_temp_df.index <= 2019)]["Market Effective Rent Growth 12 Mo"])
+    #
+    #     _2019_Median_HHI = _temp_df["Median Household Income"].filter(like="2019").values[0]
+    #     _2016_Median_HHI = _temp_df["Median Household Income"].filter(like="2016").values[0]
+    #     _2014_Median_HHI = _temp_df["Median Household Income"].filter(like="2014").values[0]
+    #     _2010_Median_HHI = _temp_df["Median Household Income"].filter(like="2009").values[0]
+    #     median_income_map[cbsa] = {"2019 Median HHI": _2019_Median_HHI,
+    #                                "2016 Median HHI": _2016_Median_HHI,
+    #                                "2014 Median HHI": _2014_Median_HHI,
+    #                                "2010 Median HHI": _2010_Median_HHI,
+    #                                "3 Year Median Income Change": _2019_Median_HHI / _2016_Median_HHI - 1 or "",
+    #                                "5 Year Median Income Change": _2019_Median_HHI / _2014_Median_HHI - 1 or "",
+    #                                "10 Year Median Income Change": _2019_Median_HHI / _2010_Median_HHI - 1 or "",
+    #                                "Population Growth/Rent Growth Correlation": population_growth_rent_growth_corr or "",
+    #                                "Medina HHI/Rent Growth Correlation": median_hhi_rent_growth_corr or "",
+    #                                "Market Cap Rate vs Rent Growth Correlation": cap_rate_rent_growth_corr or "",
+    #                                }
+    #
+    # median_inc_map_df = pd.DataFrame.from_dict(median_income_map, orient='index')
+    # df_consolidated_rankings = df_consolidated_rankings.join(median_inc_map_df)
 
     # RANKINGS & REPORTS
-    df_relative_analysis["CBSA NAME"] = CBSA_NAMES
-    df_abs_states["CBSA NAME"] = CBSA_NAMES
-    df_abs_analysis["CBSA NAME"] = CBSA_NAMES
 
     # GET FASTEST GROWING/DECLINING YOY
     FASTEST_GROWING_YOY = df_relative_analysis.sort_values(by=["POPULATION_%CHG_2019"], ascending=False).head(
@@ -560,7 +727,7 @@ def analyze_population(cb, costar_mf, export, plot):
                       FASTEST_DECLINING_ALL_DEATHS
                       ]
 
-
+    multi_industry_bls = multi_industry_bls.reset_index()
 
     # SAVE TO EXCEL
     if export:
@@ -572,6 +739,9 @@ def analyze_population(cb, costar_mf, export, plot):
         df_abs_states.to_excel(writer, sheet_name="state_aggregation")
         df_all_rankings.to_excel(writer, sheet_name="Rankings")
         df_consolidated_rankings.to_excel(writer, sheet_name="Consolidated Rankings")
+        multi_industry_bls.to_excel(writer, sheet_name="BLS Data")
+        df_consolidated_rankings[df_consolidated_rankings.index.isin(mlg_msas)].to_excel(writer, sheet_name="MLG Markets Rankings")
+
         write_multiple_dfs(writer, all_df_reports, 'MLG MSA Tables', 1)
         writer.save()
 
@@ -595,9 +765,12 @@ def analyze_population(cb, costar_mf, export, plot):
 
 
 def main():
-    costar_mf = CostarMF("costar_mf_all_cbsa.xlsx")
+    bls = BLS()
+    bls.bls_industry_data()
+    # costar_mf = CostarMF("costar_mf_all_cbsa.xlsx")
+    costar_mf = []
     cb = CensusBureau()
-    analyze_population(cb, costar_mf, export=1, plot=0)
+    analyze_population(cb, costar_mf, bls, export=1, plot=0)
 
 
 if __name__ == "__main__":
