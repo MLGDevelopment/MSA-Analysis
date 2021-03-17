@@ -2,6 +2,8 @@ import os
 import urllib.request
 import urllib
 import pandas as pd
+import requests
+import json
 
 """
 https://beta.bls.gov/dataQuery/find?q=unemployment
@@ -165,9 +167,9 @@ class BLS:
         if export:
             self.df.to_excel(os.path.join(self.bls_dir, "bls_county_data.xlsx"))
 
-    def fetch_bls_datasets(self, series):
-        import requests
-        import json
+    def fetch_bls_datasets(self, series, year_start, year_end, export=False):
+
+        year_span = range(year_start, year_end+1)
         headers = {'Content-type': 'application/json'}
         data = json.dumps(series)
         p = requests.post('https://api.bls.gov/publicAPI/v2/timeseries/data/', data=data, headers=headers)
@@ -182,8 +184,8 @@ class BLS:
                 value = float(item['value'])
                 x.append([seriesId, year, period, value])
 
-
             master[series['seriesID']] = x
+
         return master
 
 def main():
@@ -191,10 +193,15 @@ def main():
     # series = {"seriesid": ['CUUR0000SA0', 'SUUR0000SA0'], "startyear": "2000", "endyear": "2020"}
     report_list = bls.bls_report_list['report id'].values.tolist()
     series = {"seriesid": report_list,
-              "startyear": "2000", "endyear": "2020"}
-    dat = bls.fetch_bls_datasets(series)
+              "startyear": "2000",
+              "endyear": "2020",
+              "registrationkey": "e2673e2e9de5482d9f9ad79fc059ba2a"}
+    df = bls.fetch_bls_datasets(series, year_start=2000, year_end=2020, export=True)
+
+
+
     print
-    #bls.bls_industry_data(export=1)
+    # bls.bls_industry_data(export=1)
 
 
 if __name__ == "__main__":

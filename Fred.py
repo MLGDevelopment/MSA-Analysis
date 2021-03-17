@@ -132,11 +132,7 @@ class FredLayer():
         self.get_purchase_only_house_price_index_us()
         df = pd.DataFrame([self.usd_series.index.values, self.usd_series.values]).T
         df.columns = ['x', 'y']
-
         self.plot_time_series()
-        print
-
-
 
 
 if __name__ == "__main__":
