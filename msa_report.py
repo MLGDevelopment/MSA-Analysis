@@ -57,65 +57,68 @@ for cbsa_id in cbsa_list:
         curr_population_estimate = '-'
         population_5_year_growth = '-'
 
-    # need to check for Metro ID
-    if not pd.isnull(df[df['CBSA Code'] == cbsa_id]["Metropolitan Division Code"].iloc[0]):
-        temp = list(set(df[df['CBSA Code'] == cbsa_id]["Metropolitan Division Code"].values.tolist()))
-        cbsa_package = [cbsa_id] + temp
+    cbsa_package = dict()
+
+    metro_ids = [i for i in list(set(df[df['CBSA Code'] == cbsa_id]["Metropolitan Division Code"].values.tolist())) if str(i) != 'nan']
+
+    if metro_ids:
+        cbsa_package['metro_id'] = metro_ids
+        cbsa_package['cbsa_id'] = cbsa_id
     else:
-        cbsa_package = cbsa_id
+        cbsa_package['cbsa_id'] = cbsa_id
 
-    costar_rent_growth_12_month = costar_mf.get_12_month_effective_rent_growth(cbsa_package)
-    costar_rent = costar_mf.get_most_recent_cbsa_rent(cbsa_package)
-    costar_occupancy = costar_mf.get_most_recent_occupancy(cbsa_package)
-    axio_rent_growth_12_month = axio.get_12_month_rent_cbsa_growth(cbsa_package)
+    # costar_rent_growth_12_month = costar_mf.get_12_month_effective_rent_growth(cbsa_package)
+    # costar_rent = costar_mf.get_most_recent_cbsa_rent(cbsa_package)
+    # costar_occupancy = costar_mf.get_most_recent_occupancy(cbsa_package)
+    # axio_rent_growth_12_month = axio.get_12_month_rent_cbsa_growth(cbsa_package)
     axio_rent = axio.get_current_cbsa_rent(cbsa_package)
-    axio_occupancy = axio.get_current_cbsa_occupancy(cbsa_package)
+    # axio_occupancy = axio.get_current_cbsa_occupancy(cbsa_package)
 
-    cb_acs5_data = cb_report[(cb_report['CBSA Code'] == cbsa_id)]
-    cbsa_acs5_data_2019 = cb_acs5_data[cb_acs5_data['year'] == 2019]
-    cb_acs5_pivot = pd.pivot_table(cbsa_acs5_data_2019,
-                                   values=['Total Households', 'Average Household Size', 'Median Household Income',
-                                           'Median Age', 'Occupied Housing Units', 'High school graduate, GED, or alternative',
-                                           "Bachelor\'s degree or higher"], index=['CBSA Code', 'year'], aggfunc=np.mean)
-
-
-    cb_acs5_pivot_all_years = pd.pivot_table(cb_report[(cb_report['CBSA Code'] == cbsa_id)],  values=['Total Households', 'Average Household Size', 'Median Household Income','Median Age', 'Occupied Housing Units', 'High school graduate, GED, or alternative', "Bachelor\'s degree or higher"], index=['CBSA Code', 'year'], aggfunc=np.mean)
-    cb_acs5_pivot_all_years = cb_acs5_pivot_all_years.reset_index(drop=False)
-
-    cb_acs5_pivot_all_years.sort_values('year', inplace=True)
-    median_hhi_5_yr_growth = cb_acs5_pivot_all_years.iloc[-1, :]['Median Household Income'] / cb_acs5_pivot_all_years.iloc[-5, :]['Median Household Income'] - 1
-
-    median_hhi = cb_acs5_pivot['Median Household Income'].values[0]
-    total_households = cb_acs5_pivot['Total Households'].values[0]
-    average_household_size = cb_acs5_pivot['Average Household Size'].values[0]
+    # cb_acs5_data = cb_report[(cb_report['CBSA Code'] == cbsa_id)]
+    # cbsa_acs5_data_2019 = cb_acs5_data[cb_acs5_data['year'] == 2019]
+    # cb_acs5_pivot = pd.pivot_table(cbsa_acs5_data_2019,
+    #                                values=['Total Households', 'Average Household Size', 'Median Household Income',
+    #                                        'Median Age', 'Occupied Housing Units', 'High school graduate, GED, or alternative',
+    #                                        "Bachelor\'s degree or higher"], index=['CBSA Code', 'year'], aggfunc=np.mean)
+    #
+    #
+    # cb_acs5_pivot_all_years = pd.pivot_table(cb_report[(cb_report['CBSA Code'] == cbsa_id)],  values=['Total Households', 'Average Household Size', 'Median Household Income','Median Age', 'Occupied Housing Units', 'High school graduate, GED, or alternative', "Bachelor\'s degree or higher"], index=['CBSA Code', 'year'], aggfunc=np.mean)
+    # cb_acs5_pivot_all_years = cb_acs5_pivot_all_years.reset_index(drop=False)
+    #
+    # cb_acs5_pivot_all_years.sort_values('year', inplace=True)
+    # median_hhi_5_yr_growth = cb_acs5_pivot_all_years.iloc[-1, :]['Median Household Income'] / cb_acs5_pivot_all_years.iloc[-5, :]['Median Household Income'] - 1
+    #
+    # median_hhi = cb_acs5_pivot['Median Household Income'].values[0]
+    # total_households = cb_acs5_pivot['Total Households'].values[0]
+    # average_household_size = cb_acs5_pivot['Average Household Size'].values[0]
     # median_age = cb_acs5_pivot['Median Age'].values[0]
     # hs_rate = cb_acs5_pivot['High school graduate, GED, or alternative'].values[0]
     # college_rate = cb_acs5_pivot["Bachelor\'s degree or higher"].values[0]
 
-    rental_affordability = ((costar_rent + axio_rent) / 2) / (median_hhi / 12)
+    # rental_affordability = ((costar_rent + axio_rent) / 2) / (median_hhi / 12)
+    #
+    # # need to error check
+    # cbsa_permits_last_3_years_average, cbsa_permits_historical_average = cb.get_permit_trend(cbsa_id, 36)
 
-    # need to error check
-    cbsa_permits_last_3_years_average, cbsa_permits_historical_average = cb.get_permit_trend(cbsa_id, 36)
-
-    record = {"cbsa": cbsa_id,
-              "MSA": cbsa_name,
-              "2019 Population Est.": curr_population_estimate,
-              "5 Yr Population % Change": population_5_year_growth,
-              "MSA (All counties) 5 Yr Net Migration": net_migration_past_5_years,
-              "MSA (All counties) Net Migration as a % of total growth": net_migration_pct_of_total_change,
-              "Median HHI": median_hhi,
-              "5 Yr Growth Median HHI": median_hhi_5_yr_growth,
-              "Rent - Costar": costar_rent,
-              "Rent - Axio": axio_rent,
-              "Costar 12 Month Growth": costar_rent_growth_12_month,
-              "Axio 12 Month Growth": axio_rent_growth_12_month,
-              "Occupancy - Costar": costar_occupancy,
-              "Occupancy - Axio": axio_occupancy,
-              "Housing Affordability": rental_affordability,
-              "5+ Unit Permits - 3 Yr Avg": cbsa_permits_last_3_years_average,
-              "5+ Unit Permits - Hist. Avg. before last 3 Yrs": cbsa_permits_historical_average}
-
-    master.append(record)
+    # record = {"cbsa": cbsa_id,
+    #           "MSA": cbsa_name,
+    #           "2019 Population Est.": curr_population_estimate,
+    #           "5 Yr Population % Change": population_5_year_growth,
+    #           "MSA (All counties) 5 Yr Net Migration": net_migration_past_5_years,
+    #           "MSA (All counties) Net Migration as a % of total growth": net_migration_pct_of_total_change,
+    #           "Median HHI": median_hhi,
+    #           "5 Yr Growth Median HHI": median_hhi_5_yr_growth,
+    #           "Rent - Costar": costar_rent,
+    #           "Rent - Axio": axio_rent,
+    #           "Costar 12 Month Growth": costar_rent_growth_12_month,
+    #           "Axio 12 Month Growth": axio_rent_growth_12_month,
+    #           "Occupancy - Costar": costar_occupancy,
+    #           "Occupancy - Axio": axio_occupancy,
+    #           "Housing Affordability": rental_affordability,
+    #           "5+ Unit Permits - 3 Yr Avg": cbsa_permits_last_3_years_average,
+    #           "5+ Unit Permits - Hist. Avg. before last 3 Yrs": cbsa_permits_historical_average}
+    #
+    # master.append(record)
 
 master_df = pd.DataFrame(master)
 master_df.to_excel('cbsa-report.xlsx')

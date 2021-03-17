@@ -18,12 +18,12 @@ import altair as alt
 FRED_API = "7b01ffec8a8b5fa92a16c5af3f72ff14"
 
 
-
-
-
 class FredLayer():
 
     def __init__(self):
+        self.curr_dir = os.path.dirname(os.path.realpath(__file__))
+        self.report_list = os.path.join(self.curr_dir, "data", "mappings", "FREDReportList.xlsx")
+        self.states = pd.read_excel(self.report_list, "states")
         self.fred_engine = Fred(api_key=FRED_API)
 
     def get_usd_series(self):
@@ -31,7 +31,6 @@ class FredLayer():
         min_date = pd.to_datetime("2006-01-02")
         self.usd_series = self.fred_engine.get_series(sid)
         self.usd_series = self.usd_series[self.usd_series.index > min_date]
-
         self.usd_series.columns = ['date,' 'USD Price Index']
 
     def get_purchase_only_house_price_index_us(self):
@@ -112,6 +111,22 @@ class FredLayer():
 
         print
 
+    def unemployment_all_states(self, export=False):
+
+        states = self.states['abbreviation'].values.tolist()
+        master = pd.DataFrame()
+        for state in states:
+            code = state + "UR"
+            df = pd.DataFrame(self.fred_engine.get_series(code), columns=[state])
+            if master.empty:
+                master = df
+            else:
+                master[state] = df
+
+        if export:
+            master.to_excel("All States Unemployment.xlsx")
+
+
     def main(self):
         self.get_usd_series()
         self.get_purchase_only_house_price_index_us()
@@ -121,7 +136,11 @@ class FredLayer():
         self.plot_time_series()
         print
 
+
+
+
 if __name__ == "__main__":
     fred_layer = FredLayer()
-    fred_layer.main()
+    #fred_layer.main()
+    fred_layer.unemployment_all_states(export=True)
     print

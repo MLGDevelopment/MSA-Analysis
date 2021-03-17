@@ -112,7 +112,7 @@ def analyze_population(export, plot):
     # GET THE CB DATA
     cb = CensusBureau()
     features = cb.pop_features
-    cb_pop_data_master = cb.fetch_population_csv()
+    cb_pop_data_master = cb.fetch_county_population_csv()
     cb.build_acs_report(years=list(range(2019, 2020)), export=False)
 
     # Filter for state level population data

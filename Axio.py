@@ -37,26 +37,31 @@ class Axio:
         self.df_occupancy.rename(columns={0: 'value', 'level_2': 'date'}, inplace=True)
 
     def get_current_cbsa_rent(self, cbsa):
-        index = None
-        if isinstance(cbsa, list):
-            # handle list, find which cbsa works
-            while cbsa:
-                try:
-                    curr = cbsa.pop()
-                    index = self.df_rents[self.df_rents['Market ID'] == curr]['date'].argmax()
-                    break
-                except:
-                    pass
 
-            if index:
+        if 'metro_id' in cbsa.keys():
+            try:
+                index = self.df_rents[self.df_rents['Market ID'] == cbsa['cbsa_id']]['date'].argmax()
                 return self.df_rents.iloc[index, :]['value']
-            return -1
+            except:
+                # CBSA NOT FOUND, TRY METROS
+                indexes = []
+                try:
+                    while cbsa['metro_id']:
+                        cbsa_id = cbsa['metro_id'].pop()
+                        index = self.df_rents[self.df_rents['Market ID'] == cbsa_id]['date'].argmax()
+                        indexes.append(index)
+
+                    return self.df_rents.iloc[indexes, :]['value'].mean()
+                except:
+                    return -1
+
         else:
             try:
-                index = self.df_rents[self.df_rents['Market ID'] == cbsa]['date'].argmax()
+                index = self.df_rents[self.df_rents['Market ID'] == cbsa['cbsa_id']]['date'].argmax()
                 return self.df_rents.iloc[index, :]['value']
             except:
                 return -1
+
 
     def get_12_month_rent_cbsa_growth(self, cbsa):
         try:
@@ -76,4 +81,4 @@ class Axio:
 
 if __name__ == "__main__":
     axio = Axio()
-    axio.get_12_month_rent_cbsa_growth('10420')
+    axio.get_current_cbsa_rent('35614')

@@ -128,7 +128,7 @@ def analyze_population(cb, costar_mf, bls, export, plot):
     THRESHOLD_BOTTOM = .10
 
     features = cb.pop_features
-    df = cb.fetch_population_csv()
+    df = cb.fetch_county_population_csv()
     df = df[df["POPESTIMATE2019"] >= POPULATION_THRESHOLD]
     _2019_MEDIAN = df["POPESTIMATE2019"].median()
 

@@ -1,0 +1,364 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="fe85e597-0b3c-479c-a00b-c27d68ae0efa" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1ePqthW4S1Ur615ZV02ijSPVKe0" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Scraping" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+  </component>
+  <component name="RunManager" selected="Python.msa_report">
+    <configuration name="Axio" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="MSA-Analysis" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Axio.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="BureauLaborStatistics" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="MSA-Analysis" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/BureauLaborStatistics.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="CensusBureau" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="MSA-Analysis" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/CensusBureau.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Costar" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="MSA-Analysis" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Costar.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="msa_report" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="MSA-Analysis" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/msa_report.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Python.Axio" />
+      <item itemvalue="Python.BureauLaborStatistics" />
+      <item itemvalue="Python.CensusBureau" />
+      <item itemvalue="Python.Costar" />
+      <item itemvalue="Python.msa_report" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.msa_report" />
+        <item itemvalue="Python.CensusBureau" />
+        <item itemvalue="Python.Axio" />
+        <item itemvalue="Python.Costar" />
+        <item itemvalue="Python.BureauLaborStatistics" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="fe85e597-0b3c-479c-a00b-c27d68ae0efa" name="Default Changelist" comment="" />
+      <created>1594233791864</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1594233791864</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="999" y="125" key="#Axio" timestamp="1614365337672">
+      <screen x="0" y="0" width="2560" height="1019" />
+    </state>
+    <state x="999" y="125" key="#Axio/0.0.2560.1019@0.0.2560.1019" timestamp="1614365337672" />
+    <state x="734" y="165" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1614365346204">
+      <screen x="0" y="0" width="2560" height="1019" />
+    </state>
+    <state x="734" y="165" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.2560.1019@0.0.2560.1019" timestamp="1614365346204" />
+    <state x="846" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1614364961977">
+      <screen x="0" y="0" width="2560" height="1019" />
+    </state>
+    <state x="846" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.2560.1019@0.0.2560.1019" timestamp="1614364961977" />
+    <state x="103" y="192" width="1342" height="673" key="#xdebugger.evaluate" timestamp="1614550226894">
+      <screen x="0" y="0" width="2560" height="1019" />
+    </state>
+    <state x="-1829" y="219" width="1471" height="800" key="#xdebugger.evaluate/-3840.0.1536.815/0.0.1920.1019/-1920.0.1920.1019@-1920.0.1920.1019" timestamp="1612385711806" />
+    <state x="-1495" y="139" width="1097" height="751" key="#xdebugger.evaluate/-3840.0.1536.815/0.0.1920.1019/-1920.0.1920.1019@0.0.1920.1019" timestamp="1612481245178" />
+    <state x="364" y="211" width="938" height="591" key="#xdebugger.evaluate/0.0.1536.802@0.0.1536.802" timestamp="1610421506351" />
+    <state x="103" y="192" width="1342" height="673" key="#xdebugger.evaluate/0.0.2560.1019@0.0.2560.1019" timestamp="1614550226894" />
+    <state x="740" y="265" key="FileChooserDialogImpl" timestamp="1611001423865">
+      <screen x="0" y="0" width="1920" height="1019" />
+    </state>
+    <state x="740" y="265" key="FileChooserDialogImpl/-3840.0.1536.815/0.0.1920.1019/-1920.0.1920.1019@0.0.1920.1019" timestamp="1611001423865" />
+    <state width="1820" height="181" key="GridCell.Tab.0.bottom" timestamp="1614553136580">
+      <screen x="0" y="0" width="2560" height="1019" />
+    </state>
+    <state width="1899" height="198" key="GridCell.Tab.0.bottom/-3840.0.1536.815/0.0.1920.1019/-1920.0.1920.1019@-1920.0.1920.1019" timestamp="1612385369507" />
+    <state width="1899" height="211" key="GridCell.Tab.0.bottom/-3840.0.1536.815/0.0.1920.1019/-1920.0.1920.1019@0.0.1920.1019" timestamp="1612481211581" />
+    <state width="928" height="335" key="GridCell.Tab.0.bottom/0.0.1536.802@0.0.1536.802" timestamp="1614486690726" />
+    <state width="1820" height="181" key="GridCell.Tab.0.bottom/0.0.2560.1019@0.0.2560.1019" timestamp="1614553136580" />
+    <state width="1820" height="181" key="GridCell.Tab.0.center" timestamp="1614553136580">
+      <screen x="0" y="0" width="2560" height="1019" />
+    </state>
+    <state width="1899" height="198" key="GridCell.Tab.0.center/-3840.0.1536.815/0.0.1920.1019/-1920.0.1920.1019@-1920.0.1920.1019" timestamp="1612385369507" />
+    <state width="1899" height="211" key="GridCell.Tab.0.center/-3840.0.1536.815/0.0.1920.1019/-1920.0.1920.1019@0.0.1920.1019" timestamp="1612481211581" />
+    <state width="928" height="335" key="GridCell.Tab.0.center/0.0.1536.802@0.0.1536.802" timestamp="1614486690725" />
+    <state width="1820" height="181" key="GridCell.Tab.0.center/0.0.2560.1019@0.0.2560.1019" timestamp="1614553136580" />
+    <state width="1820" height="181" key="GridCell.Tab.0.left" timestamp="1614553136580">
+      <screen x="0" y="0" width="2560" height="1019" />
+    </state>
+    <state width="1899" height="198" key="GridCell.Tab.0.left/-3840.0.1536.815/0.0.1920.1019/-1920.0.1920.1019@-1920.0.1920.1019" timestamp="1612385369507" />
+    <state width="1899" height="211" key="GridCell.Tab.0.left/-3840.0.1536.815/0.0.1920.1019/-1920.0.1920.1019@0.0.1920.1019" timestamp="1612481211580" />
+    <state width="928" height="335" key="GridCell.Tab.0.left/0.0.1536.802@0.0.1536.802" timestamp="1614486690725" />
+    <state width="1820" height="181" key="GridCell.Tab.0.left/0.0.2560.1019@0.0.2560.1019" timestamp="1614553136580" />
+    <state width="1820" height="181" key="GridCell.Tab.0.right" timestamp="1614553136580">
+      <screen x="0" y="0" width="2560" height="1019" />
+    </state>
+    <state width="1899" height="198" key="GridCell.Tab.0.right/-3840.0.1536.815/0.0.1920.1019/-1920.0.1920.1019@-1920.0.1920.1019" timestamp="1612385369507" />
+    <state width="1899" height="211" key="GridCell.Tab.0.right/-3840.0.1536.815/0.0.1920.1019/-1920.0.1920.1019@0.0.1920.1019" timestamp="1612481211581" />
+    <state width="928" height="335" key="GridCell.Tab.0.right/0.0.1536.802@0.0.1536.802" timestamp="1614486690726" />
+    <state width="1820" height="181" key="GridCell.Tab.0.right/0.0.2560.1019@0.0.2560.1019" timestamp="1614553136580" />
+    <state width="1820" height="181" key="GridCell.Tab.1.bottom" timestamp="1614553136491">
+      <screen x="0" y="0" width="2560" height="1019" />
+    </state>
+    <state width="1899" height="198" key="GridCell.Tab.1.bottom/-3840.0.1536.815/0.0.1920.1019/-1920.0.1920.1019@-1920.0.1920.1019" timestamp="1612385428645" />
+    <state width="1899" height="211" key="GridCell.Tab.1.bottom/-3840.0.1536.815/0.0.1920.1019/-1920.0.1920.1019@0.0.1920.1019" timestamp="1612481218331" />
+    <state width="2007" height="290" key="GridCell.Tab.1.bottom/0.0.1536.802@0.0.1536.802" timestamp="1614486690723" />
+    <state width="1820" height="181" key="GridCell.Tab.1.bottom/0.0.2560.1019@0.0.2560.1019" timestamp="1614553136491" />
+    <state width="1820" height="181" key="GridCell.Tab.1.center" timestamp="1614553136491">
+      <screen x="0" y="0" width="2560" height="1019" />
+    </state>
+    <state width="1899" height="198" key="GridCell.Tab.1.center/-3840.0.1536.815/0.0.1920.1019/-1920.0.1920.1019@-1920.0.1920.1019" timestamp="1612385428645" />
+    <state width="1899" height="211" key="GridCell.Tab.1.center/-3840.0.1536.815/0.0.1920.1019/-1920.0.1920.1019@0.0.1920.1019" timestamp="1612481218331" />
+    <state width="2007" height="290" key="GridCell.Tab.1.center/0.0.1536.802@0.0.1536.802" timestamp="1614486690723" />
+    <state width="1820" height="181" key="GridCell.Tab.1.center/0.0.2560.1019@0.0.2560.1019" timestamp="1614553136491" />
+    <state width="1820" height="181" key="GridCell.Tab.1.left" timestamp="1614553136491">
+      <screen x="0" y="0" width="2560" height="1019" />
+    </state>
+    <state width="1899" height="198" key="GridCell.Tab.1.left/-3840.0.1536.815/0.0.1920.1019/-1920.0.1920.1019@-1920.0.1920.1019" timestamp="1612385428645" />
+    <state width="1899" height="211" key="GridCell.Tab.1.left/-3840.0.1536.815/0.0.1920.1019/-1920.0.1920.1019@0.0.1920.1019" timestamp="1612481218330" />
+    <state width="2007" height="290" key="GridCell.Tab.1.left/0.0.1536.802@0.0.1536.802" timestamp="1614486690723" />
+    <state width="1820" height="181" key="GridCell.Tab.1.left/0.0.2560.1019@0.0.2560.1019" timestamp="1614553136491" />
+    <state width="1820" height="181" key="GridCell.Tab.1.right" timestamp="1614553136491">
+      <screen x="0" y="0" width="2560" height="1019" />
+    </state>
+    <state width="1899" height="198" key="GridCell.Tab.1.right/-3840.0.1536.815/0.0.1920.1019/-1920.0.1920.1019@-1920.0.1920.1019" timestamp="1612385428645" />
+    <state width="1899" height="211" key="GridCell.Tab.1.right/-3840.0.1536.815/0.0.1920.1019/-1920.0.1920.1019@0.0.1920.1019" timestamp="1612481218331" />
+    <state width="2007" height="290" key="GridCell.Tab.1.right/0.0.1536.802@0.0.1536.802" timestamp="1614486690723" />
+    <state width="1820" height="181" key="GridCell.Tab.1.right/0.0.2560.1019@0.0.2560.1019" timestamp="1614553136491" />
+    <state x="781" y="153" key="SettingsEditor" timestamp="1614365364813">
+      <screen x="0" y="0" width="2560" height="1019" />
+    </state>
+    <state x="781" y="153" key="SettingsEditor/0.0.2560.1019@0.0.2560.1019" timestamp="1614365364813" />
+    <state width="1292" height="518" key="XDebugger.FullValuePopup" timestamp="1614383911372">
+      <screen x="0" y="0" width="2560" height="1019" />
+    </state>
+    <state width="969" height="518" key="XDebugger.FullValuePopup/-3840.0.1536.815/0.0.1920.1019/-1920.0.1920.1019@-1920.0.1920.1019" timestamp="1610466075724" />
+    <state width="969" height="518" key="XDebugger.FullValuePopup/-3840.0.1536.815/0.0.1920.1019/-1920.0.1920.1019@0.0.1920.1019" timestamp="1612480448409" />
+    <state width="1292" height="518" key="XDebugger.FullValuePopup/0.0.2560.1019@0.0.2560.1019" timestamp="1614383911372" />
+    <state x="514" y="271" key="com.intellij.ide.util.TipDialog" timestamp="1615906943763">
+      <screen x="0" y="0" width="1536" height="802" />
+    </state>
+    <state x="643" y="344" key="com.intellij.ide.util.TipDialog/-3840.0.1536.815/0.0.1920.1019/-1920.0.1920.1019@0.0.1920.1019" timestamp="1612447232289" />
+    <state x="514" y="271" key="com.intellij.ide.util.TipDialog/0.0.1536.802@0.0.1536.802" timestamp="1615906943763" />
+    <state x="857" y="344" key="com.intellij.ide.util.TipDialog/0.0.2560.1019@0.0.2560.1019" timestamp="1614545730030" />
+    <state x="1089" y="427" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1612154530404">
+      <screen x="0" y="0" width="2560" height="1019" />
+    </state>
+    <state x="1089" y="427" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.2560.1019@0.0.2560.1019" timestamp="1612154530404" />
+    <state x="1343" y="30" width="983" height="909" key="find.popup" timestamp="1614546101199">
+      <screen x="0" y="0" width="2560" height="1019" />
+    </state>
+    <state x="-792" y="56" width="737" height="909" key="find.popup/-3840.0.1536.815/0.0.1920.1019/-1920.0.1920.1019@-1920.0.1920.1019" timestamp="1610489192436" />
+    <state x="1343" y="30" width="983" height="909" key="find.popup/0.0.2560.1019@0.0.2560.1019" timestamp="1614546101199" />
+    <state x="-1318" y="182" width="699" height="638" key="search.everywhere.popup" timestamp="1610469363867">
+      <screen x="-1920" y="0" width="1920" height="1019" />
+    </state>
+    <state x="-1318" y="182" width="699" height="638" key="search.everywhere.popup/-3840.0.1536.815/0.0.1920.1019/-1920.0.1920.1019@-1920.0.1920.1019" timestamp="1610469363867" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$USER_HOME$/AppData/Local/Temp/Temp1_qcew_python_3x_example.zip/qcew_python_3x_example.py</url>
+          <line>104</line>
+          <option name="timeStamp" value="25" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Fred.py</url>
+          <line>126</line>
+          <option name="timeStamp" value="31" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Fred.py</url>
+          <line>121</line>
+          <option name="timeStamp" value="38" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Fred.py</url>
+          <line>120</line>
+          <option name="timeStamp" value="49" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/msa_analysis.py</url>
+          <line>140</line>
+          <option name="timeStamp" value="165" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/BureauLaborStatistics.py</url>
+          <line>195</line>
+          <option name="timeStamp" value="175" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/CensusBureau.py</url>
+          <line>197</line>
+          <option name="timeStamp" value="189" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Axio.py</url>
+          <line>43</line>
+          <option name="timeStamp" value="202" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Axio.py</url>
+          <line>44</line>
+          <option name="timeStamp" value="203" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Axio.py</url>
+          <line>45</line>
+          <option name="timeStamp" value="204" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Axio.py</url>
+          <line>46</line>
+          <option name="timeStamp" value="205" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Axio.py</url>
+          <line>42</line>
+          <option name="timeStamp" value="206" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/msa_report.py</url>
+          <line>81</line>
+          <option name="timeStamp" value="207" />
+        </line-breakpoint>
+      </breakpoints>
+      <default-breakpoints>
+        <breakpoint type="python-exception">
+          <properties notifyOnTerminate="true" exception="BaseException">
+            <option name="notifyOnTerminate" value="true" />
+          </properties>
+        </breakpoint>
+      </default-breakpoints>
+    </breakpoint-manager>
+    <watches-manager>
+      <configuration name="PythonConfigurationType">
+        <watch expression="d[10180]" language="Python" />
+      </configuration>
+    </watches-manager>
+  </component>
+</project>

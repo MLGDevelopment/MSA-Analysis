@@ -96,7 +96,7 @@ class CensusBureau:
         _for = "metropolitan%20statistical%20area/micropolitan%20statistical%20area:*"
         path = _base.format(GET=_get, FOR=_for, KEY=self.API_KEY)
 
-    def fetch_population_csv(self, export=False):
+    def fetch_county_population_csv(self, export=False):
         """
         MSA Link = "https://www2.census.gov/programs-surveys/popest/datasets/2010-2019/metro/totals/cbsa-est2019-alldata.csv"
 
@@ -123,10 +123,44 @@ class CensusBureau:
 
         df["COMBINED_COUNTY_ID"] = df["STATE"] + df["COUNTY"]
         df.rename(columns={0: 'estimate'}, inplace=True)
-        df.rename(columns={'level_7': 'meausure'}, inplace=True)
+        df.rename(columns={'level_7': 'values'}, inplace=True)
 
         if export:
-            path = os.path.join(self.datasets, "2010-2019 Detailed Population Estimates.xlsx")
+            path = os.path.join(self.datasets, "2010-2019 Detailed Population Estimates - Counties.xlsx")
+            df.to_excel(path)
+        return df
+
+
+    def fetch_msa_population_csv(self, export=False):
+        """
+        MSA Link = "https://www2.census.gov/programs-surveys/popest/datasets/2010-2019/metro/totals/cbsa-est2019-alldata.csv"
+
+        NOTE: Using this because cannot find data via API
+
+        :return:
+        """
+
+        path_msa = "https://www2.census.gov/programs-surveys/popest/datasets/2010-2019/metro/totals/cbsa-est2019-alldata.csv"
+        data = requests.get(path_msa).content
+
+        df = pd.read_csv(io.StringIO(data.decode('latin-1')), converters={'STATE': str, 'COUNTY': str})
+        df.set_index(df.columns[:5].values.tolist(), drop=True, inplace=True)
+
+        del df["CENSUS2010POP"]
+        del df["ESTIMATESBASE2010"]
+
+        df = df.stack()
+        df = df.reset_index(drop=False)
+
+        for i, row in df.iterrows():
+            df.set_value(i, 'year', int(row['level_5'][-4:]))
+            df.set_value(i, 'level_5', row['level_5'][:-4])
+
+        df.rename(columns={0: 'estimate'}, inplace=True)
+        df.rename(columns={'level_5': 'values'}, inplace=True)
+
+        if export:
+            path = os.path.join(self.datasets, "2010-2019 Detailed Population Estimates - MSA.xlsx")
             df.to_excel(path)
         return df
 
@@ -190,8 +224,10 @@ class CensusBureau:
 
 if __name__ == "__main__":
     cb = CensusBureau()
-    cb.get_permit_trend('28940', 36)
-    df = cb.fetch_population_csv(export=True)
+    cb.fetch_msa_population_csv(export=1)
+
+    #cb.get_permit_trend('28940', 36)
+    #df = cb.fetch_county_population_csv(export=True)
 
     # cb.build_acs_report()
 
