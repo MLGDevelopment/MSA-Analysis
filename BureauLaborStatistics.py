@@ -23,6 +23,19 @@ all_counties_national_columns = ['area_fips', 'own_code', 'industry_code', 'aggl
                                  'avg_annual_pay']
 
 
+bls_month_mapping = {"M01": "January",
+                     "M02": "February",
+                     "M03": "March",
+                     "M04": "April",
+                     "M05": "May",
+                     "M06": "June",
+                     "M07": "July",
+                     "M08": "August",
+                     "M09": "September",
+                     "M10": "October",
+                     "M11": "November",
+                     "M12": "December"}
+
 
 class BLS:
 
@@ -196,8 +209,10 @@ def main():
               "startyear": "2000",
               "endyear": "2020",
               "registrationkey": "e2673e2e9de5482d9f9ad79fc059ba2a"}
-    df = bls.fetch_bls_datasets(series, year_start=2000, year_end=2020, export=True)
+    bls_data = bls.fetch_bls_datasets(series, year_start=2000, year_end=2020, export=True)
 
+    for key in bls_data.keys():
+        df = pd.DataFrame(bls_data[key][1:], columns=bls_data[key][0])
 
 
     print
